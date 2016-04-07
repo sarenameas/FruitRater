@@ -1,0 +1,65 @@
+<div ng-controller="GroceryController as vm" class="container">
+    <h1>
+        {{vm.grocery.name.charAt(0).toUpperCase() + vm.grocery.name.slice(1)}}&nbsp;
+        - {{vm.grocery.address}}
+    </h1>
+    <hr>
+         
+    <div ng-show="vm.fruits.length === 0">
+        <p>
+        There are no fruit reviews for this grocery store yet! Get started by writing a 
+        review!    
+        </p>
+    </div>
+
+    <p class="float-left">
+        <a href="#/review/{{vm.grocery._id}}">Write a Review</a>
+    </p>
+
+    <p class="float-right" ng-show="vm.currentUser.admin">
+        <button ng-click="vm.deleteGrocery()" class="btn btn-default">Delete this grocery store</button>
+    </p>
+    
+    <div ng-show="vm.fruits.length > 0">
+
+        <p class="float-none-right">
+        <nav class="right-align">
+            Page:&nbsp;
+            <span ng-repeat="fruit in vm.fruitsPages">
+                <a ng-class="{'disabled': vm.$location.url() === '/grocery/{{vm.grocery._id}}/page={{$index+1}}'}"
+                   ng-click="vm.getFruitsForPage($index+1)">
+                    {{$index+1}}&nbsp;
+                </a>
+            </span>
+        </nav>
+        </p>
+
+        </p>
+        <form class="form-inline">
+            <div class="form-group">
+                <input ng-model="vm.searchFruit"
+                       type="text" 
+                       class="form-control" 
+                       placeholder="Banana, Mangosteen, ...">
+            </div>
+            <button ng-click="vm.search()" type="submit" class="btn btn-default">Search Fruit</button>
+        </form>
+        </p>
+        <br>
+        
+        <!-- TODO: Need to float left with picture for fruit and border around fruit like
+                   in the wireframe. -->
+        <span ng-repeat="fruit in vm.fruitsPage track by $index">
+
+            <span id="fruit-grocery">
+                <a ng-href="#/grocery/{{vm.grocery._id}}/{{fruit}}">
+                    {{fruit.charAt(0).toUpperCase() + fruit.slice(1)}}
+                </a>
+            </span>
+
+        </span>
+        
+           
+    </div>     
+    
+</div>

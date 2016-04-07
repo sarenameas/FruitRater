@@ -1,0 +1,29 @@
+<div class="container">
+
+    <div ng-controller="UserProfileController as vm">
+        <h1>
+            {{vm.user.username}}'s Profile
+        </h1>
+        <hr>
+
+        <div class="col-sm-4 center-align">
+            <img id="img-profile" ng-src="{{vm.user.picture}}" /><br>
+        </div>
+        <div class="col-sm-4">
+            <p>Joined: {{vm.user.joinedDate | date : format : shortDate}}</p>
+            <p>No. Reviews: {{vm.numReviews}}</p>
+            <p><a ng-href="#/user/{{vm.user._id}}/reviews/1">{{vm.user.username}}'s Reviews</a></p>
+        </div>
+
+        <div class="col-sm-4 align-right">
+            <div ng-show="vm.followVisible">
+               <button ng-click="vm.follow(vm.user._id)" class="btn btn-default">Follow</button>
+            </div>
+            <div ng-show="vm.unfollowVisible">
+                <button ng-click="vm.unfollow(vm.user._id)" class="btn btn-default">Unfollow</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

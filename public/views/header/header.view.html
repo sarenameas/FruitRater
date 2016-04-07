@@ -1,0 +1,82 @@
+<!-- Need to create a header with custom CSS style
+     - Need to center the content
+     - Need to create a bottom border
+     - Need to create some type of colored background
+ -->
+<nav ng-controller="HeaderController as header" class="navbar navbar-default" role="search">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button"
+                    class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#navbar"
+                    aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#/home" class="navbar-brand">
+                <img alt="Brand" src="pictures/strawberry.ico" width=20>
+            </a>
+            <a href="#/home" class="navbar-brand">Fruit Ratings</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <label class="control-label">Fruit: </label>
+                    <input ng-model="header.fruit" type="text" class="form-control" placeholder="Strawberry, Avacado, ...">
+                </div>
+                <div class="form-group">
+                   <label class="control-label">Grocery Store: </label> 
+                   <input ng-model="header.grocery" type="text" class="form-control" placeholder="Walmart, Safeway, ...">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Location: </label>
+                    <input ng-model="header.location" type="text" class="form-control" placeholder="Zipcode, City, or State">
+                </div>
+                <div class="form-group">
+                    <button ng-click="header.search(header.fruit, header.grocery, header.location)" type="submit" class="btn btn-default">Search</button>
+                </div>
+            </form>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-hide="currentUser">
+                    <a href="#/register">Register</a>
+                </li>
+                <li ng-hide="currentUser">
+                    <a href="#/login">Log In</a>
+                </li>
+                <li ng-show="currentUser" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="center-align">
+                            <a href="#/profile">
+                                <img id="img-dropdown" ng-src="{{currentUser.picture}}">
+                            </a>
+                        </li>
+                        <li class="center-align">
+                            <a href="#/profile">
+                                {{currentUser.username}}
+                            </a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li class="center-align">
+                            <a href="#/profile">Profile</a>
+                        </li>
+                        <li class="center-align">
+                            <a ng-click="header.logOut()">Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+</nav>

@@ -1,0 +1,66 @@
+<div ng-controller="FruitController as vm" class="container">
+
+    <div ng-show="vm.reviews.length === 0">
+        <h1>
+            {{vm.fruit.charAt(0).toUpperCase() + vm.fruit.slice(1)}}
+        </h1>
+        <hr>
+
+        There are no reviews for this fruit yet! Get started by <a href="#/review/{{vm.grocery._id}}/{{vm.fruit}}">writing a review</a>.
+    </div>
+
+    <div ng-hide="vm.reviews.length === 0">
+
+
+        <h1>
+            {{vm.fruit.charAt(0).toUpperCase() + vm.fruit.slice(1)}}&nbsp;
+            <span ng-repeat="i in vm.rangeArray(vm.averageRating) track by $index">
+                <span>&#x2605;</span>
+            </span>
+            <span ng-repeat="i in vm.rangeArray(5 - vm.averageRating) track by $index">
+                <span>&#x2606;</span>
+            </span>
+        </h1>
+        <hr>
+
+
+        <p>
+            <a ng-href="#/grocery/{{vm.grocery._id}}">
+                {{vm.grocery.name.charAt(0).toUpperCase() + vm.grocery.name.slice(1)}}&nbsp;
+                - {{vm.grocery.address}}
+            </a>
+        </p>
+
+        <p class="float-left">
+            <a href="#/review/{{vm.grocery._id}}/{{vm.fruit}}">Write a Review</a>
+        </p>
+
+        <button ng-show="vm.currentUser.admin" ng-click="vm.deleteFruit()" class="float-right btn btn-default">Delete this fruit</button>
+
+
+
+
+        <p class="float-none-right">
+            <nav class="right-align">
+                Page:&nbsp;
+                    <span ng-repeat="page in vm.reviewsPages">
+                        <a ng-class="{'disabled': vm.$location.url() === '/grocery/{{vm.grocery._id}}/{{vm.fruit}}/{{$index+1}}'}"
+                           ng-click="vm.getReviewsForPage($index+1)">
+                            {{$index+1}}&nbsp;
+                        </a>
+                    </span>
+            </nav>
+        </p>
+
+
+        <div ng-repeat="review in vm.reviewsPage">
+            <p>
+                <fruit-review review="review" delete-update="vm.updateReviewPages()"></fruit-review>
+            </p>
+        </div>
+
+        <!-- TODO: Put photos on the right side of page -->
+    </div>
+
+
+</div>

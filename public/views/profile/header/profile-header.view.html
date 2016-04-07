@@ -1,0 +1,24 @@
+<div ng-controller="ProfileHeaderController as header">
+    <h1>
+        Profile
+    </h1>
+    <hr>
+    <ol class="breadcrumb">
+        <li ng-class="{'disabled': (header.$location.url()==='/profile/account' || header.$location.url()==='/profile')}">
+            <a href="#/profile/account">Account</a>
+        </li>
+        <li ng-class="{'disabled': header.$location.url().includes('/profile/myreviews/')}">
+            <a href="#/profile/myreviews/1">My Reviews</a>
+        </li>
+        <li ng-class="{'disabled': header.$location.url().includes('/profile/usersfollowing')}">
+            <a href="#/profile/usersfollowing/1">Users Following</a>
+        </li>
+        <li ng-class="{'disabled': header.$location.url().includes('/profile/grocerystoresfollowing')}">
+            <a href="#/profile/grocerystoresfollowing/1">Grocery Stores Following</a>
+        </li>
+        <li ng-show="header.currentUser.admin"
+            ng-class="{'disabled': header.$location.url().includes('/profile/allusers')}">
+            <a href="#/profile/allusers/1">All Users</a>
+        </li>
+    </ol>
+</div>

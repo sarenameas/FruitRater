@@ -1,0 +1,47 @@
+<div id="fruit-review">
+    <div class="container-fluid">
+        <!-- Profile picture on the left -->
+        <div class="col-sm-4">
+            <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
+        </div>
+
+        <!-- Stars floating -->
+        <div class="col-sm-8 right-align">
+            {{review.date | date : format : shortDate}}
+            <span ng-repeat="i in rangeArray(review.rating) track by $index">
+                <span>&#x2605;</span>
+            </span>
+            <span ng-repeat="i in rangeArray(5 - review.rating) track by $index">
+                <span>&#x2606;</span>
+            </span>
+        </div>
+
+    </div>
+    <div class="container-fluid">
+        <!-- Profile picture on the left -->
+        <div class="col-sm-2">
+            <a ng-href="#/user/{{user._id}}">
+                <img id="img-review" ng-src="{{user.picture}}">
+            </a>
+        </div>
+        <!-- Review paragraph -->
+        <div class="col-sm-10">
+            <p>{{review.text}}</p>
+        </div>
+
+        <!-- Edit and delete glyphs -->
+        <div class="float-right">
+            <!-- PROPER DIRECTIVE FUNCTION BINDING !!!!!!!!!!!!!!!! -->
+            <span ng-show="user === currentUser">
+                <a ng-click="editReview(review._id)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+            </span>
+            <span ng-show="user === currentUser || currentUser.admin">
+                <a ng-click="deleteReview(review._id)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>

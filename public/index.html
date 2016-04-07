@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="FruitRaterApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fruit Rater</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap Javascript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <!-- AngularJS Routing -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <!-- AngularJS Sanitize -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.min.js"></script>
+
+    <!-- Custom AngularJS Files -->
+    <script src="js/app.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.controller.js"></script>
+
+    <script src="services/user.service.client.js"></script>
+    <script src="services/review.service.client.js"></script>
+    <script src="services/grocery.service.client.js"></script>
+    <script src="services/pages.service.client.js"></script>
+
+    <script src="views/home/home.controller.js"></script>
+    <script src="views/header/header.controller.js"></script>
+    <script src="views/register/register.controller.js"></script>
+    <script src="views/login/login.controller.js"></script>
+    <script src="views/profile/header/profile-header.controller.js"></script>
+    <script src="views/profile/account/profile-account.controller.js"></script>
+    <script src="views/profile/reviews/profile-reviews.controller.js"></script>
+    <script src="views/profile/users_following/profile-users-following.controller.js"></script>
+    <script src="views/profile/grocery_stores_following/profile-grocery-stores-following.controller.js"></script>
+    <script src="views/profile/users_results/profile-users-results.view.controller.js"></script>
+    <script src="views/profile/all_users/profile-all-users.controller.js"></script>
+    <script src="views/user/user_profile/user-profile.controller.js"></script>
+    <script src="views/user/user_reviews/user-reviews.controller.js"></script>
+    <script src="views/results/results.controller.js"></script>
+    <script src="views/grocery/grocery.controller.js"></script>
+    <script src="views/fruit/fruit.controller.js"></script>
+    <script src="views/review/review.controller.js"></script>
+
+    <script src="directives/fruitReview.directive.js"></script>
+
+</head>
+
+
+<body ng-controller="MainController as main">
+
+    <!-- Load the header template -->
+    <div ng-include src="'views/header/header.view.html'"></div>
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div ng-view></div>
+        </div>
+    </div>
+</body>
+</html>
