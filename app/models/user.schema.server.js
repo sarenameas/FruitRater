@@ -13,7 +13,7 @@ module.exports = function(mongoose) {
             "groceryStoresFollowing": [String],
             "location": [String]
         },
-        {   collection: users
+        {   collection: "users"
         }
     );
     return UserSchema;

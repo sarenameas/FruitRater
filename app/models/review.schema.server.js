@@ -9,7 +9,7 @@ module.exports = function(mongoose) {
             "text": String
         },
         {
-            collection: reviews
+            collection: "reviews"
         }
     );
 
