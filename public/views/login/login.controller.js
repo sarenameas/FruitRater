@@ -12,19 +12,25 @@
 
         // Logs the user in if the username and password match.
         function login() {
-            // TODO: Need to use promises and server
-            var user = UserService.findUserByCredentials(vm.email, vm.password);
+            var credentials = {
+                email: vm.email,
+                password: vm.password
+            };
 
-            // If the user is not in the system then alert incorrect username or password.
-            // Otherwise set the current user and navigate to the profile page.
-            if (user == null) {
-                alert("Incorrect Username or Password.");
-            }
-            else {
-                UserService.setCurrentUser(user);
-                $location.url("/profile");
-            }
-
+            UserService
+                .login(credentials)
+                .then(
+                    function (response) {
+                        if (response.data) {
+                            var user = response.data;
+                            UserService.setCurrentUser(user);
+                            $location.url("/profile");
+                        }
+                        else {
+                            alert("Incorrect Email or Password.");
+                        }
+                    }
+                );
         }
     }
 })();

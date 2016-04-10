@@ -4,8 +4,8 @@
         .factory("UserService", userService);
 
 
-    userService.$inject = ['$rootScope'];
-    function userService($rootScope) {
+    userService.$inject = ['$rootScope', '$http'];
+    function userService($rootScope, $http) {
 
         // TODO: Mock data for now
         var users = [
@@ -38,10 +38,12 @@
 
 
         // API
-        var model = {
+        var api = {
             users: users,
             getCurrentUser : getCurrentUser,
             setCurrentUser : setCurrentUser,
+            login: login,
+            register: register,
             findUserByCredentials : findUserByCredentials,
             findUserById: findUserById,
             findUsersByUsername: findUsersByUsername,
@@ -50,9 +52,7 @@
             deleteUser : deleteUser,
             updateUser : updateUser
         };
-        return model;
-
-
+        return api;
 
 
         // Returns the currentUser logged in the system.
@@ -63,6 +63,14 @@
         // Sets the currentUser logged in the system to the given user. The given user must be a valid user object.
         function setCurrentUser(user) {
             $rootScope.currentUser = user;
+        }
+
+        function login(credentials) {
+            return $http.post("/api/login", credentials);
+        }
+
+        function register(user) {
+            return $http.post("/api/register", user);
         }
 
         // Returns the user found with given email and password, if the user cannot be found then returns null.

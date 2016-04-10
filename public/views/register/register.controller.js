@@ -6,7 +6,7 @@
     registerController.$inject = ['$location','UserService'];
     function registerController($location, UserService) {
         var vm = this;
-        vm.$location = $location
+        vm.$location = $location;
 
         // For blank usernames
         vm.usernameError = false;
@@ -66,13 +66,25 @@
                     var user = {
                         "username": vm.username,
                         "password": vm.password,
+                        "email": vm.email,
                         "firstname": null,
                         "lastname": null,
-                    }
+                    };
 
-                    // TODO: Create Promises with server response
-                    UserService.setCurrentUser(UserService.createUser(user));
-                    $location.url("/profile");
+                    UserService
+                        .register(user)
+                        .then(
+                            function (response) {
+                                if (response.data) {
+                                    var userResponse = response.data;
+                                    UserService.setCurrentUser(userResponse);
+                                    $location.url("/profile");
+                                }
+                            },
+                            function (err) {
+                                alert(err);
+                            }
+                        );
                 }
             }
 

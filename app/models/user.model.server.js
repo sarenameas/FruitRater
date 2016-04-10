@@ -17,13 +17,15 @@ module.exports = function(db, mongoose) {
         createUser : createUser,
         deleteUser : deleteUser,
         updateUser : updateUser
-    }
+    };
+
+    return api;
 
     /* Returns the user who's credentials match the username and password */
     function findUserByCredentials(credentials) {
         return UserModel.findOne(
             {
-                username: credentials.username,
+                email: credentials.email,
                 password: credentials.password
             }
         )
@@ -58,11 +60,11 @@ module.exports = function(db, mongoose) {
 
         /* Need to check for an existing username */
         UserModel
-            .findOne({username: user.username})
+            .findOne({email: user.email})
             .then(
                 function (result) {
                     if (result) {
-                        deferred.reject("Username already exists");
+                        deferred.reject("User for this email already exists");
                     } else {
                         UserModel.create(user, function (err, doc) {
                             if (err) {
@@ -84,7 +86,7 @@ module.exports = function(db, mongoose) {
 
     /* Deletes a user in the system and returns the status of the delete. */
     function deleteUser(userId) {
-        UserModel.delete(
+        UserModel.remove(
             {_id: userId}
         );
     }

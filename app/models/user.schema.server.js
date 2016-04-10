@@ -16,5 +16,6 @@ module.exports = function(mongoose) {
         {   collection: "users"
         }
     );
+
     return UserSchema;
 };

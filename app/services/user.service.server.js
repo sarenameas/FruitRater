@@ -12,13 +12,22 @@ module.exports = function(app, UserModel) {
     app.put("/api/user/:userId", updateUser);
 
     // TODO: Session user login stuff.
-    function login() {
-
+    function login(req, res) {
+        UserModel
+            .findUserByCredentials(req.body)
+            .then(
+                function (user) {
+                    res.json(user);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     // TODO: Session user register stuff
-    function register() {
-
+    function register(req, res) {
+        createUser(req, res);
     }
 
     //TODO: Passport and session stuff for logging out
