@@ -74,7 +74,7 @@
 
         // Returns the user found by the given userId.
         function findUserById(userId) {
-            return $http.get("/api/user/:userId");
+            return $http.get("/api/user/" + userId);
         }
 
         function findUsersByUsername(username) {
