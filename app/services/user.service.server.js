@@ -4,11 +4,12 @@ module.exports = function(app, UserModel) {
     app.get("/api/loggedin", loggedin);
     app.post("/api/register", register);
 
+    app.post("/api/user", createUser);
     app.get("/api/user/:userId", findUserById);
     app.get("/api/user?username=username", findUsers);
     app.get("/api/user", findUsers);
     app.delete("/api/user/:userId", deleteUser);
-    app.post("/api/user/:userId", updateUser);
+    app.put("/api/user/:userId", updateUser);
 
     // TODO: Session user login stuff.
     function login() {
@@ -28,6 +29,21 @@ module.exports = function(app, UserModel) {
     // TODO: Passport and session request stuff for checking loggedin
     function loggedin() {
 
+    }
+
+    // TODO: This will be deleted and go in the register function.
+    function createUser(req, res) {
+        var newUser = req.body;
+        UserModel
+            .createUser(newUser)
+            .then(
+                function (user) {
+                    res.json(user);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function findUserById(req, res) {
@@ -87,8 +103,10 @@ module.exports = function(app, UserModel) {
     }
 
     function updateUser(req, res) {
+        var user = req.body;
+        var userId = req.params.userId;
         UserModel
-            .updateUser(req.params.userId)
+            .updateUser(userId, user)
             .then(
                 function (status) {
                     res.status(200).json(status);
