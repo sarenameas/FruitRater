@@ -10,8 +10,18 @@
             $scope.rangeArray = rangeArray;
             $scope.editReview = editReview;
             $scope.deleteReview = deleteReview;
-            $scope.user = UserService.findUserById($scope.review.userId);
+            $scope.user = null;
             $scope.currentUser = UserService.getCurrentUser();
+
+            UserService
+                .findUserById($scope.review.userId)
+                .then(
+                    function (response) {
+                        if (response.data) {
+                            $scope.user = response.data;
+                        }
+                    }
+                );
 
             function rangeArray(n) {
                 return new Array(n);

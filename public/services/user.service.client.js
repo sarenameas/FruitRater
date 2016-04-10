@@ -44,7 +44,6 @@
             setCurrentUser : setCurrentUser,
             login: login,
             register: register,
-            findUserByCredentials : findUserByCredentials,
             findUserById: findUserById,
             findUsersByUsername: findUsersByUsername,
             findAllUsers : findAllUsers,
@@ -73,30 +72,9 @@
             return $http.post("/api/register", user);
         }
 
-        // Returns the user found with given email and password, if the user cannot be found then returns null.
-        function findUserByCredentials(email, password) {
-
-            var i;
-            var user = null;
-            // Crockford coding style states that for loops should follow the initialization; condition; update format.
-            // Iterate through the list of users looking for a matching username and password.
-            for (i = 0; i < users.length; i++) {
-                if (users[i].email === email && users[i].password === password) {
-                    user = users[i];
-                }
-            }
-            return user;
-        }
-
         // Returns the user found by the given userId.
         function findUserById(userId) {
-            // Iterate through the users array looking for a matching _id
-            for (i = 0; i < users.length; i++) {
-                if (users[i]._id === userId) {
-                    return users[i];
-                }
-            }
-            return null;
+            return $http.get("/api/user/:userId");
         }
 
         function findUsersByUsername(username) {

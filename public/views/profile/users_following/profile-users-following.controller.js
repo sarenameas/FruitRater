@@ -38,9 +38,15 @@
 
             vm.allUsersFollowing = [];
             for (i = 0; i < vm.currentUser.usersFollowing.length; i++) {
-                vm.allUsersFollowing.push(
-                    UserService.findUserById(vm.currentUser.usersFollowing[i])
-                );
+                UserService
+                    .findUserById(vm.currentUser.usersFollowing[i])
+                    .then(
+                        function (response) {
+                            if (response.data) {
+                                vm.allUsersFollowing.push(response.data);
+                            }
+                        }
+                    );
             }
             vm.userPages = PagesService.splitItemsIntoPages(vm.allUsersFollowing,5);
             vm.getUsersForPage($routeParams.page);

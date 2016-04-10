@@ -25,7 +25,15 @@
 
         function init() {
             // Get the currentUser
-            vm.user = UserService.findUserById($routeParams.id);
+            UserService
+                .findUserById($routeParams.id)
+                .then(
+                    function (response) {
+                        if (response.data) {
+                            vm.user = response.data;
+                        }
+                    }
+                );
 
             vm.updateReviewPages();
 

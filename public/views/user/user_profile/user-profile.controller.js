@@ -22,7 +22,15 @@
         init();
 
         function init() {
-            vm.user = UserService.findUserById($routeParams.id);
+            UserService
+                .findUserById($routeParams.id)
+                .then(
+                    function (response) {
+                        if (response.data) {
+                            vm.user = response.data;
+                        }
+                    }
+                );
             vm.currentUser = UserService.getCurrentUser();
             var userReviews = ReviewService.findAllReviewsForUser(vm.user._id);
             vm.numReviews = userReviews.length;
