@@ -84,7 +84,7 @@ module.exports = function(db, mongoose) {
         return ReviewModel.delete(
             {
                 fruit: fruit,
-                grocertId: groceryId
+                groceryId: groceryId
             }
         )
     }
