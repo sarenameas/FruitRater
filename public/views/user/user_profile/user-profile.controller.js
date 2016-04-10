@@ -31,9 +31,9 @@
                         }
                     }
                 );
-            vm.currentUser = UserService.getCurrentUser();
-            var userReviews = ReviewService.findAllReviewsForUser(vm.user._id);
-            vm.numReviews = userReviews.length;
+            //vm.currentUser = UserService.getCurrentUser();
+            //var userReviews = ReviewService.findAllReviewsForUser(vm.user._id);
+            //vm.numReviews = userReviews.length;
 
             if (vm.currentUser == null) {
                 vm.unfollowVisible = false;

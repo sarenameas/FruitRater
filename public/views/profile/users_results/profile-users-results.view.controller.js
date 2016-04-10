@@ -39,9 +39,15 @@
             var i;
 
             vm.allUsersFound = [];
-            vm.allUsersFound = UserService.findUsersByUsername(vm.username);
-            vm.usersFoundPages = PagesService.splitItemsIntoPages(vm.allUsersFound,5);
-            vm.getUsersFoundForPage($routeParams.page);
+            UserService
+                .findUsersByUsername(vm.username)
+                .then(
+                    function (response) {
+                        vm.allUsersFound = response.data;
+                        vm.usersFoundPages = PagesService.splitItemsIntoPages(vm.allUsersFound,5);
+                        vm.getUsersFoundForPage($routeParams.page);
+                    }
+                );
         }
 
         /* Expects a integer page */

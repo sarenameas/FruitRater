@@ -78,14 +78,7 @@
         }
 
         function findUsersByUsername(username) {
-            var usersFound = [];
-            for (i = 0; i < users.length; i++) {
-                if (users[i].username === username) {
-                    usersFound.push(users[i]);
-                }
-            }
-            return usersFound;
-
+            return $http.get("/api/user?username=" + username);
         }
 
         // Returns the array of users to the callback function.
