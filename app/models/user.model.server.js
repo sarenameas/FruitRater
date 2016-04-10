@@ -53,6 +53,9 @@ module.exports = function(db, mongoose) {
     function createUser(user) {
         var deferred = q.defer();
 
+        // Defensive delete possible _id field
+        delete user._id;
+
         /* Need to check for an existing username */
         UserModel
             .findOne({username: user.username})

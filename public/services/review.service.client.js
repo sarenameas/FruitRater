@@ -73,7 +73,7 @@
                 "rating": review.rating,
                 "date": new Date(),
                 "text": review.text
-            }
+            };
 
             reviews.push(newReview);
             return newReview;
