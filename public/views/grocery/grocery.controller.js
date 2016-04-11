@@ -29,12 +29,14 @@
         
         function init() {
             vm.currentUser = UserService.getCurrentUser();
-            vm.grocery = GroceryService.findGroceryStoreById($routeParams.id);
-            // For the given grocery ID we want to get all there reviews.
-            // For all the reviews we want to extract the different fruits without duplicating.
-            
-            ReviewService
-                .findAllReviewsForGroceryStore(vm.grocery._id)
+            GroceryService
+                .findGroceryStoreById($routeParams.id)
+                .then(
+                    function (grocery) {
+                        vm.grocery = grocery;
+                        return ReviewService .findAllReviewsForGroceryStore(vm.grocery._id);
+                    }
+                )
                 .then(
                     function (response) {
                         var allReviews = response.data;

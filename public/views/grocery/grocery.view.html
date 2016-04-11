@@ -4,14 +4,18 @@
         - {{vm.grocery.address}}
     </h1>
     <hr>
-         
-    <div ng-show="vm.fruits.length === 0">
+
+    <div ng-hide="vm.grocery">
+        Invalid Grocery Store.
+    </div>
+
+    <div ng-show="vm.fruits.length === 0 && vm.grocery != null">
         <p>
         There are no fruit reviews for this grocery store yet! Get started by writing a 
         review!    
         </p>
     </div>
-    <div>
+    <div ng-show="vm.grocery">
         <a href="#/review/{{vm.grocery._id}}" class="float-left">Write a Review</a>
 
         <p class="float-right" ng-show="vm.currentUser.admin">

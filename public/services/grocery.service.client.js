@@ -49,20 +49,31 @@
             return allGroceryStores;
         }
 
-        /* Returns the grocery store found by the given groceryId from our own database*/
         function findGroceryStoreById(groceryId) {
-            var i;
-            for (i = 0; i < groceryStores.length; i++) {
-                if (groceryStores[i]._id === groceryId.toString()) {
-                    return groceryStores[i];
-                }
-            }
-            return null;
+            var deferred = $q.defer();
+            $http
+                .get('/api/business/grocery/' + groceryId)
+                .then(
+                    function (response) {
+                        var groceryStore = null;
+                        if (response.data) {
+                            var groceryStore = {
+                                "_id": response.data.id,
+                                "name": response.data.name,
+                                "address": response.data.location.display_address[0] + ", " + response.data.location.display_address[1]
+                            };
+                        }
+                        deferred.resolve(groceryStore);
+                    },
+                    function (err) {
+                        deferred.reject(err);
+                    }
+                );
+
+            return deferred.promise;
         }
 
-        /* Searches the YelpService with the name and location and picks the data
-         * to put into our own JSON object. 
-         */
+
         function findGroceryStoresByNameAndLocation(name, location) {
             // TODO: use yelp api to get result.
             //
