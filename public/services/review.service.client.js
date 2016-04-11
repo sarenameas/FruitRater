@@ -3,51 +3,9 @@
         .module("FruitRaterApp")
         .factory("ReviewService", reviewService);
 
-    reviewService.$inject = ['$http'];
-    function reviewService($http) {
-        // Mock data
-        var reviews = [
-            {
-                "_id": 1,
-                "fruit": "avacado",
-                "groceryId": "1",
-                "userId": "123",
-                "rating": 3,
-                "date": new Date(2015, 1, 13),
-                "text": "Ok, had black stringy stuff inside."
-            },
-            {
-                "_id": 2,
-                "fruit": "avacado",
-                "groceryId": "1",
-                "userId": "456",
-                "rating": 1,
-                "date": new Date(2015, 1, 10),
-                "text": "def no"
-            },
-            {
-                "_id": 3,
-                "fruit": "avacado",
-                "groceryId": "1",
-                "userId": "456",
-                "rating": 5,
-                "date": new Date(2015, 1, 10),
-                "text": "no"
-            },
-            {
-                "_id": 4,
-                "fruit": "avacado",
-                "groceryId": "1",
-                "userId": "456",
-                "rating": 2,
-                "date": new Date(2015, 1, 10),
-                "text": "ok"
-            }
-        ];
-
-        // API to return
+    reviewService.$inject = ['$http', '$q'];
+    function reviewService($http, $q) {
         var api = {
-            reviews: reviews,
             createReview: createReview,
             updateReview: updateReview,
             findAllReviews: findAllReviews,
@@ -89,78 +47,53 @@
             return $http.delete("/api/review/" + reviewId);
         }
 
-        /* Deletes all of the specified fruit for that grocery store */
         function deleteFruitReviews(fruit, groceryId) {
-            var i;
-            for(i= reviews.length - 1; i >= 0 ; i--) {
-                if (reviews[i].fruit === fruit && reviews[i].groceryId === groceryId) {
-                    reviews.splice(i, 1);
-                }
-            }
-            return reviews;
+            return $http.delete("/api/review?groceryId=" + groceryId + "&fruit=" + fruit);
         }
 
         function deleteGroceryStoreReviews(groceryId) {
-            var i;
-            for(i= reviews.length - 1; i >= 0 ; i--) {
-                if (reviews[i].groceryId === groceryId) {
-                    reviews.splice(i, 1);
-                }
-            }
+            return $http.delete("/api/review?groceryId=" + groceryId);
         }
 
-        /* Deletes all the reviews for that user */
         function deleteUserReviews(userId) {
-            var i;
-            for(i= reviews.length - 1; i >= 0 ; i--) {
-                if (reviews[i].userId === userId) {
-                    reviews.splice(i, 1);
-                }
-            }
+            return $http.delete("/api/review?userId=" + userId);
         }
 
-
-        
-        /* Get all the review sin the server for the specified grocery store id */
         function findAllReviewsForGroceryStore(groceryId) {
-            var i;
-            var groceryReviews = [];
-            for (i = 0; i < reviews.length; i++) {
-                if (reviews[i].groceryId === groceryId) {
-                    groceryReviews.push(reviews[i]);
-                }
-            }
-            return groceryReviews;
+            return $http.get("/api/review?groceryId=" + groceryId);
         }
 
         /* Returns the average rating of all the fruits reviews for the given grocery store id. */
         function getAverageRatingOfFruitAtGroceryStore(fruit, groceryId) {
-            var i;
-            var sum = 0;
-            var count = 0;
-            var average = 0;
-            for(i = 0; i < reviews.length; i++) {
-                if (reviews[i].fruit === fruit && reviews[i].groceryId === groceryId) {
-                    sum += reviews[i].rating;
-                    count += 1;
-                }
-            }
-            if(count !== 0) {
-                average = Math.floor(sum/count);
-            }
-            return average;
+            var deferred = $q.defer();
+            findAllReviewsForFruitAndGroceryStore(fruit, groceryId)
+                .then(
+                    function (response) {
+                        var reviews = response.data;
+                        var i;
+                        var sum = 0;
+                        var count = 0;
+                        var average = 0;
+                        for(i = 0; i < reviews.length; i++) {
+                            sum += reviews[i].rating;
+                            count += 1;
+                        }
+                        if(count !== 0) {
+                            average = Math.floor(sum/count);
+                        }
+                        deferred.resolve(average);
+                    },
+                    function (err) {
+                        deferred.reject(err);
+                    }
+                );
+
+            return deferred.promise;
         }
 
 
         function findAllReviewsForFruitAndGroceryStore(fruit, groceryId) {
-            var fruitReviews = [];
-            for(i = 0; i < reviews.length; i++) {
-                if (reviews[i].fruit === fruit && reviews[i].groceryId === groceryId) {
-                    fruitReviews.push(reviews[i]);
-                }
-            }
-
-            return fruitReviews;
+            return $http.get("/api/review?groceryId=" + groceryId + "&fruit=" + fruit);
         }
     }
 })();

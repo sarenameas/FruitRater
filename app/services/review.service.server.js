@@ -10,7 +10,6 @@ module.exports = function(app, ReviewModel) {
     app.delete("/api/review?groceryId=groceryId&fruit=fruit", deleteReviews);
     app.delete("/api/review?groceryId=groceryId", deleteReviews);
     app.delete("/api/review?userId=userId", deleteReviews);
-    app.get("/api/review/average?groceryId=groceryId&fruit=fruit", getAverageRatingOfFruitAtGroceryStore);
 
 
     function createReview(req, res) {
@@ -157,21 +156,6 @@ module.exports = function(app, ReviewModel) {
                     }
                 );
         }
-    }
-
-    function getAverageRatingOfFruitAtGroceryStore(req, res) {
-        var groceryId = req.query.groceryId;
-        var fruit = req.query.fruit;
-        ReviewModel
-            .getAverageRatingOfFruitAtGroceryStore(fruit, groceryId)
-            .then(
-                function (average) {
-                    res.send(average);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            );
     }
 
 };

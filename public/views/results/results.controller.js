@@ -113,19 +113,25 @@
             var j;
             
             for (i = 0; i < groceryStores.length; i++) {
-                var reviews = ReviewService.findAllReviewsForGroceryStore(groceryStores[i]._id);
-                for (j = 0; i < reviews.length; j++) {
-                    if (reviews[j].fruit === vm.fruit) {
-                        var result = {
-                            _id: reviews[j].groceryId,
-                            name: groceryStores[i].name,
-                            address: groceryStores[i].address,
-                            fruit: reviews[j].fruit
+                ReviewService
+                    .findAllReviewsForGroceryStore(groceryStores[i]._id)
+                    .then(
+                        function (response) {
+                            var reviews = response.data;
+                            for (j = 0; i < reviews.length; j++) {
+                                if (reviews[j].fruit === vm.fruit) {
+                                    var result = {
+                                        _id: reviews[j].groceryId,
+                                        name: groceryStores[i].name,
+                                        address: groceryStores[i].address,
+                                        fruit: reviews[j].fruit
+                                    }
+                                    vm.results.push(result);
+                                    break;
+                                }
+                            }
                         }
-                        vm.results.push(result);
-                        break;
-                    }
-                }
+                    );
             }            
         }
 

@@ -32,24 +32,33 @@
             vm.fruit = $routeParams.fruit;
             vm.grocery = GroceryService.findGroceryStoreById($routeParams.id);
             vm.currentUser = UserService.getCurrentUser();
-            vm.averageRating = ReviewService.getAverageRatingOfFruitAtGroceryStore(vm.fruit, vm.grocery._id);
+            ReviewService
+                .getAverageRatingOfFruitAtGroceryStore(vm.fruit, vm.grocery._id)
+                .then(
+                    function (response) {
+                        vm.averageRating = response;
+                    }
+                );
 
             updateReviewPages();
         }
 
         function updateReviewPages() {
             // TODO: Reviews should be grabbed in order by date written.
-            // Get the reviews to display without promises for now.
-            vm.reviews = ReviewService.findAllReviewsForFruitAndGroceryStore(vm.fruit, vm.grocery._id);
-            vm.reviewsPages = PagesService.splitItemsIntoPages(vm.reviews, 5);
+            ReviewService
+                .findAllReviewsForFruitAndGroceryStore(vm.fruit, vm.grocery._id)
+                .then(
+                    function (response) {
+                        vm.reviews = response.data;
+                        vm.reviewsPages = PagesService.splitItemsIntoPages(vm.reviews, 5);
 
-
-
-            if ($routeParams.page) {
-                vm.getReviewsForPage($routeParams.page);
-            } else {
-                vm.getReviewsForPage(1);
-            }
+                        if ($routeParams.page) {
+                            vm.getReviewsForPage($routeParams.page);
+                        } else {
+                            vm.getReviewsForPage(1);
+                        }
+                    }
+                );
 
         }
 
@@ -65,8 +74,16 @@
 
         /* Deletes the fruit from the system */
         function deleteFruit() {
-            var r = ReviewService.deleteFruitReviews(vm.fruit, vm.grocery._id);
-            $location.url("/grocery/" + vm.grocery._id.toString());
+            ReviewService
+                .deleteFruitReviews(vm.fruit, vm.grocery._id)
+                .then(
+                    function (response) {
+                        $location.url("/grocery/" + vm.grocery._id.toString());
+                    },
+                    function (err) {
+                        alert("Problem deleting the fruit and all it's reviews.");
+                    }
+                );
         }
 
 

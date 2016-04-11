@@ -13,8 +13,7 @@ module.exports = function(db, mongoose) {
         deleteReview: deleteReview,
         deleteFruitReviews: deleteFruitReviews,
         deleteGroceryStoreReviews: deleteGroceryStoreReviews,
-        deleteUserReviews: deleteUserReviews,
-        getAverageRatingOfFruitAtGroceryStore: getAverageRatingOfFruitAtGroceryStore
+        deleteUserReviews: deleteUserReviews
     };
 
     return api;
@@ -101,35 +100,5 @@ module.exports = function(db, mongoose) {
         return ReviewModel.remove(
             {userId: userId}
         )
-    }
-
-    /* Returns the average rating the all the reviews for the fruit at the given groceryId */
-    function getAverageRatingOfFruitAtGroceryStore(fruit, groceryId) {
-        var deferred = q.defer();
-        UserModel
-            .find(
-                {fruit: fruit},
-                {groceryId: groceryId}
-            )
-            .then(
-                function(reviews) {
-                    var i;
-                    var sum = 0;
-                    var count = 0;
-                    var average = 0;
-                    for(i = 0; i < reviews.length; i++) {
-                        sum += reviews[i].rating;
-                        count += 1;
-                    }
-                    if(count !== 0) {
-                        average = Math.floor(sum/count);
-                    }
-                    deferred.resolve(average);
-                },
-                function(err) {
-                    deferred.reject(err);
-                }
-            );
-        return deferred.promise;
     }
 };
