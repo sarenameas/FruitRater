@@ -73,9 +73,13 @@
                     );
                 break;
             case 1:
-                // TODO: get top grocery store results from yelp for given location.
-                groceryStores = GroceryService.findGroceryStoresByLocation(vm.location);
-                vm.results = groceryStores;
+                GroceryService
+                    .findGroceryStoresByLocation(vm.location)
+                    .then(
+                        function (groceryStores) {
+                            vm.results = groceryStores;
+                        }
+                    );
                 break;
             case 2:
                 // TODO: get top grocery store results from user location when not logged in
