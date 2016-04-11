@@ -75,26 +75,41 @@
 
 
         function findGroceryStoresByNameAndLocation(name, location) {
-            // TODO: use yelp api to get result.
-            //
-            // Take all 20 results given back and pack into our own JSON format shown in the 
-            // mock data.
-            
-            // Only pass back results that are not closed.
-            
-            // Yelp gives us back a maximum of 20 results that we will display only the ones that 
-            // have grocery as a category. We will use the utm source as grocery id.
-            
-            var i;
-            var groceryResults = [];
-            for (i = 0; i < groceryStores.length; i++) {
-                if (name.toLowerCase() === groceryStores[i].name &&
-                    groceryStores[i].address.toLowerCase().includes(location.toLowerCase())) {
-                    groceryResults.push(groceryStores[i]);
-                }
-            }
-            
-            return groceryResults;
+            var deferred = $q.defer();
+            $http
+                .get("/api/search/grocery/" + name + "/" + location)
+                .then(
+                    function (response) {
+                        var results = [];
+                        if (response.data) {
+                            var groceryStores = response.data.businesses;
+
+                            var i;
+                            var j;
+                            for (i = 0; i < groceryStores.length; i++) {
+                                var address = "";
+                                for (j = 0; j < groceryStores[i].location.display_address.length; j++) {
+                                    address = address + groceryStores[i].location.display_address[j] + ", ";
+                                }
+                                // Delete trailing comma and space
+                                address = address.substring(0, address.length - 2);
+                                results.push(
+                                    {
+                                        "_id": groceryStores[i].id,
+                                        "name": groceryStores[i].name,
+                                        "address": address
+                                    }
+                                );
+                            }
+                        }
+                        deferred.resolve(results);
+                    },
+                    function (err) {
+                        deferred.reject(err);
+                    }
+                );
+
+            return deferred.promise;
         }
         
         function findGroceryStoresByLocation(location) {
@@ -108,12 +123,19 @@
                             var groceryStores = response.data.businesses;
 
                             var i;
+                            var j;
                             for (i = 0; i < groceryStores.length; i++) {
+                                var address = "";
+                                for (j = 0; j < groceryStores[i].location.display_address.length; j++) {
+                                    address = address + groceryStores[i].location.display_address[j] + ", ";
+                                }
+                                // Delete trailing comma and space
+                                address = address.substring(0, address.length - 2);
                                 results.push(
                                     {
                                         "_id": groceryStores[i].id,
                                         "name": groceryStores[i].name,
-                                        "address": groceryStores[i].location.display_address[0] + ", " + groceryStores[i].location.display_address[1]
+                                        "address": address
                                     }
                                 );
                             }

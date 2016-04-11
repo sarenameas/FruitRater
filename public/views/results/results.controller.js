@@ -82,15 +82,27 @@
                     );
                 break;
             case 2:
-                // TODO: get top grocery store results from user location when not logged in
-                if (vm.currentUser != null) {
-                    groceryStores = GroceryService.findGroceryStoresByLocation(vm.currentUser.location);
-                    vm.results = groceryStores;
+                var location = default_location;
+                if (vm.currentUser && vm.currentUser.location) {
+                    location = vm.currentUser.location;
                 }
+
+                GroceryService
+                    .findGroceryStoresByNameAndLocation(vm.grocery, location)
+                    .then(
+                        function (groceryStores) {
+                            vm.results = groceryStores;
+                        }
+                    );
                 break;
             case 3:
-                groceryStores = GroceryService.findGroceryStoresByNameAndLocation(vm.grocery, vm.location);
-                vm.results = groceryStores;
+                GroceryService
+                    .findGroceryStoresByNameAndLocation(vm.grocery, vm.location)
+                    .then(
+                        function (groceryStores) {
+                            vm.results = groceryStores;
+                        }
+                    );
                 break;
             case 4:
                 if (vm.currentUser != null) {
