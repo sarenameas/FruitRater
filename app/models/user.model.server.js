@@ -97,7 +97,6 @@ module.exports = function(db, mongoose) {
         /* MongoDB 2.4 cannot handle the _id field being in the update. */
         delete user._id;
         if (user.location) {
-            console.log(user.location);
             user.location = user.location.toLowerCase();
         }
         return UserModel.update(

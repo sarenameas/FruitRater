@@ -44,11 +44,17 @@
                     .then(
                         function (groceryStore) {
                             vm.allGroceryStoresFollowing.push( groceryStore );
+
+                            // FIXME: Need to get a all grocery stores from service for a user to render properly.
+                            vm.groceryStoresPages = PagesService.splitItemsIntoPages(vm.allGroceryStoresFollowing,5);
+                            vm.getGroceryStoresForPage($routeParams.page);
+
                         }
                     );
             }
-            vm.groceryStoresPages = PagesService.splitItemsIntoPages(vm.allGroceryStoresFollowing,5);
-            vm.getGroceryStoresForPage($routeParams.page);
+
+
+
         }
 
         /* Gets the grocery stores for the given integer page number. */
