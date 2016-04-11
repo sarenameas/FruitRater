@@ -32,12 +32,12 @@
         <!-- Edit and delete glyphs -->
         <div class="float-right">
             <!-- PROPER DIRECTIVE FUNCTION BINDING !!!!!!!!!!!!!!!! -->
-            <span ng-show="user === currentUser">
+            <span ng-show="user._id === currentUser._id">
                 <a ng-click="editReview(review._id)">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
             </span>
-            <span ng-show="user === currentUser || currentUser.admin">
+            <span ng-show="user._id === currentUser._id || currrentUser.admin">
                 <a ng-click="deleteReview(review._id)">
                     <span class="glyphicon glyphicon-remove"></span>
                 </a>
