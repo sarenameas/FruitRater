@@ -169,7 +169,7 @@
                         .then(
                             function (response) {
                                 if (response.data) {
-                                    $location.url("/grocery/" + $routeParams.groceryId + "/" + vm.fruit + "/1");
+                                    $location.url("/grocery/" + $routeParams.groceryId + "/" + vm.fruit.toLowerCase() + "/1");
                                 }
                                 else {
                                     alert("Error creating review.");
