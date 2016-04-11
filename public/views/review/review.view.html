@@ -2,14 +2,18 @@
     <h1>Review</h1>
     <hr>
 
-    <div ng-hide="vm.currentUser">
+    <div ng-hide="vm.grocery">
+        Invalid Grocery Store.
+    </div>
+
+    <div ng-hide="vm.currentUser && vm.grocery">
 
         Please <a href="#/login">log in</a> or <a href="#/register">register</a> to write a review!
 
     </div>
 
 
-    <div ng-show="vm.currentUser">
+    <div ng-show="vm.currentUser && vm.grocery">
 
         <p>
             <a ng-href="#/grocery/{{vm.grocery._id}}">

@@ -51,7 +51,13 @@
                             if (vm.review != null) {
                                 vm.comments = vm.review.text;
                                 vm.fruit = vm.review.fruit;
-                                vm.grocery = GroceryService.findGroceryStoreById(vm.review.groceryId);
+                                GroceryService
+                                    .findGroceryStoreById(vm.review.groceryId)
+                                    .then(
+                                        function (groceryStore) {
+                                            vm.grocery = groceryStore;
+                                        }
+                                    );
                                 if (vm.review.rating === 1) {
                                     rate1star();
                                 }
@@ -73,7 +79,13 @@
             }
             else {
                 vm.fruit = $routeParams.fruit;
-                vm.grocery = GroceryService.findGroceryStoreById($routeParams.groceryId);
+                GroceryService
+                    .findGroceryStoreById($routeParams.groceryId)
+                    .then(
+                        function (groceryStore) {
+                            vm.grocery = groceryStore;
+                        }
+                    );
             }
         }
 
