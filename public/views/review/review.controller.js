@@ -40,29 +40,38 @@
 
             vm.edit = $location.url().includes("edit");
             if (vm.edit) {
-                vm.review = ReviewService.findReviewById(parseInt($routeParams.id));
-                if (vm.review != null) {
-                    vm.comments = vm.review.text;
-                    vm.fruit = vm.review.fruit;
-                    vm.grocery = GroceryService.findGroceryStoreById(vm.review.groceryId);
-                    if (vm.review.rating === 1) {
-                        rate1star();
-                    }
-                    else if(vm.review.rating === 2) {
-                        rate2star();
-                    }
-                    else if(vm.review.rating === 3) {
-                        rate3star();
-                    }
-                    else if(vm.review.rating === 4) {
-                        rate4star();
-                    }
-                    else if(vm.review.rating === 5) {
-                        rate5star();
-                    }
+                ReviewService
+                    .findReviewById($routeParams.id)
+                    .then(
+                        function (response) {
+                            if (response.data) {
+                                vm.review = response.data;
+                            }
 
-                }
-            } else {
+                            if (vm.review != null) {
+                                vm.comments = vm.review.text;
+                                vm.fruit = vm.review.fruit;
+                                vm.grocery = GroceryService.findGroceryStoreById(vm.review.groceryId);
+                                if (vm.review.rating === 1) {
+                                    rate1star();
+                                }
+                                else if(vm.review.rating === 2) {
+                                    rate2star();
+                                }
+                                else if(vm.review.rating === 3) {
+                                    rate3star();
+                                }
+                                else if(vm.review.rating === 4) {
+                                    rate4star();
+                                }
+                                else if(vm.review.rating === 5) {
+                                    rate5star();
+                                }
+                            }
+                        }
+                    );
+            }
+            else {
                 vm.fruit = $routeParams.fruit;
                 vm.grocery = GroceryService.findGroceryStoreById($routeParams.groceryId);
             }

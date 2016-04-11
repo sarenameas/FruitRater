@@ -82,14 +82,7 @@
 
 
         function findReviewById(reviewId) {
-            var i;
-            for(i=0; i < reviews.length; i++) {
-                if (reviews[i]._id === reviewId) {
-                    return reviews[i];
-                }
-            }
-
-            return null;
+            return $http.get("/api/review/" + reviewId);
         }
 
         function deleteReview(reviewId) {

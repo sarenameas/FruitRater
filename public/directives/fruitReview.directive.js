@@ -28,7 +28,7 @@
             }
 
             /* Takes us to the to review page for editing. */
-            function editReview(fruit, reviewId) {
+            function editReview(reviewId) {
 
                 $location.url('/review/edit/' + reviewId);
             }
