@@ -68,41 +68,16 @@
             return $http.post("/api/review", review);
         }
 
-        /* Updates the review found by reviewId with the given review */
         function updateReview(reviewId, review) {
-            var i;
-            for (i = 0; i < reviews.length; i++) {
-                if (reviews[i]._id === reviewId) {
-                    reviews[i].fruit = review.fruit;
-                    reviews[i].groceryId = review.groceryId;
-                    reviews[i].userId = review.userId.toString();
-                    reviews[i].rating = review.rating;
-                    reviews[i].date = review.date;
-                    reviews[i].text = review.text;
-
-                    return reviews[i];
-                }
-            }
+            return $http.put("/api/review/" + reviewId, review);
         }
 
-
-
-        /* Get all reviews in the system */
         function findAllReviews() {
-            return reviews;
+            return $http.get("/api/review");
         }
 
-
-        /* Get all the reviews in the server for specified UserId */
         function findAllReviewsForUser(userId) {
-            var i;
-            var userReviews = [];
-            for (i = 0; i < reviews.length; i++) {
-                if (reviews[i].userId === userId) {
-                    userReviews.push(reviews[i]);
-                }
-            }
-            return userReviews;
+            return $http.get("/api/review?userId=" + userId);
         }
 
 

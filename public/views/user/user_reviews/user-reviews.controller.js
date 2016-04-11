@@ -31,21 +31,28 @@
                     function (response) {
                         if (response.data) {
                             vm.user = response.data;
+                            vm.updateReviewPages();
                         }
                     }
                 );
-
-            vm.updateReviewPages();
-
         }
 
         function updateReviewPages() {
-            // We need to get 10 reviews at a time from the server for the view
             // TODO: Reviews should be grabbed in order by date written.
-            // Get the reviews to display without promises for now.
-            vm.allReviews = ReviewService.findAllReviewsForUser(vm.user._id);
-            vm.reviewPages = PagesService.splitItemsIntoPages(vm.allReviews, 5);
-            vm.getReviewsForPage($routeParams.page);
+            ReviewService
+                .findAllReviewsForUser(vm.user._id)
+                .then(
+                    function (response) {
+                        if (response.data) {
+                            vm.allReviews = response.data;
+                        }
+                        else {
+                            vm.allReviews = [];
+                        }
+                        vm.reviewPages = PagesService.splitItemsIntoPages(vm.allReviews, 5);
+                        vm.getReviewsForPage($routeParams.page);
+                    }
+                );
         }
 
         /* Returns the ten reviews for the current page. */

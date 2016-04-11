@@ -143,8 +143,17 @@
                     "text": vm.comments
                 };
                 if (vm.edit) {
-                    ReviewService.updateReview(vm.review._id, review);
-                    $location.url("/grocery/" + vm.grocery._id + "/" + vm.fruit + "/1");
+                    ReviewService
+                        .updateReview(vm.review._id, review)
+                        .then(
+                            function (response) {
+                                $location.url("/grocery/" + vm.grocery._id + "/" + vm.fruit + "/1");
+                            },
+                            function (err) {
+                                alert("Error in updating review.")
+                            }
+                        );
+
                 } else {
                     ReviewService
                         .createReview(review)

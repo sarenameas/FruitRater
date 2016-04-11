@@ -48,7 +48,7 @@ module.exports = function(app, ReviewModel) {
                 .findAllReviewsForUser(req.query.userId)
                 .then(
                     function (reviews) {
-                        res.json(review);
+                        res.json(reviews);
                     },
                     function (err) {
                         res.status(400).send(err);
@@ -60,7 +60,7 @@ module.exports = function(app, ReviewModel) {
                 .findAllReviewsForFruitAndGroceryStore(req.query.fruit, req.query.groceryId)
                 .then(
                     function (reviews) {
-                        res.json(review);
+                        res.json(reviews);
                     },
                     function (err) {
                         res.status(400).send(err);
@@ -72,7 +72,7 @@ module.exports = function(app, ReviewModel) {
                 .findAllReviewsForGroceryStore(req.query.groceryId)
                 .then(
                     function (reviews) {
-                        res.json(review);
+                        res.json(reviews);
                     },
                     function (err) {
                         res.status(400).send(err);
@@ -84,7 +84,7 @@ module.exports = function(app, ReviewModel) {
                 .findAllReviews()
                 .then(
                     function (reviews) {
-                        res.json(review);
+                        res.json(reviews);
                     },
                     function (err) {
                         res.status(400).send(err);

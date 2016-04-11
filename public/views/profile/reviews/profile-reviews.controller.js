@@ -38,14 +38,22 @@
         }
 
         function updateReviewPages() {
-            // We need to get 10 reviews at a time from the server for the view
             // TODO: Reviews should be grabbed in order by date written.
-            // Get the reviews to display without promises for now.
-            vm.allReviews = ReviewService.findAllReviewsForUser(vm.currentUser._id);
-            vm.reviewPages = PagesService.splitItemsIntoPages(vm.allReviews, 5);
-            //vm.pageNumArray = PagesService.getPageNumArray(vm.reviewPages);
-            vm.getReviewsForPage($routeParams.page);
-
+            ReviewService
+                .findAllReviewsForUser(vm.currentUser._id)
+                .then(
+                    function (response) {
+                        if (response.data) {
+                            vm.allReviews = response.data;
+                        }
+                        else {
+                            vm.allReviews = [];
+                        }
+                        vm.reviewPages = PagesService.splitItemsIntoPages(vm.allReviews, 5);
+                        //vm.pageNumArray = PagesService.getPageNumArray(vm.reviewPages);
+                        vm.getReviewsForPage($routeParams.page);
+                    }
+                );
         }
 
         /* Returns the ten reviews for the current page. */
