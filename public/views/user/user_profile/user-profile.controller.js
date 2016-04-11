@@ -53,9 +53,15 @@
             if (vm.currentUser != null) {
                 if (vm.currentUser.usersFollowing.indexOf(userId) === -1) {
                     vm.currentUser.usersFollowing.push(userId);
-                    UserService.updateUser(vm.currentUser._id, vm.currentUser);
-                    // Need to reinit the page to propagate changes.
-                    init();
+                    UserService
+                        .updateUser(vm.currentUser._id, vm.currentUser)
+                        .then(
+                            function (response) {
+                                // Need to re-init to propagate changes.
+                                init();
+                            }
+                        )
+
                 }
             }
             vm.unfollowVisible = true;
@@ -67,9 +73,15 @@
                 var index = vm.currentUser.usersFollowing.indexOf(userId);
                 if (index > -1) {
                     vm.currentUser.usersFollowing.splice(index, 1);
-                    UserService.updateUser(vm.currentUser._id, vm.currentUser);
-                    // Need to reinit the page to propagate changes tp view.
-                    init();
+                    UserService
+                        .updateUser(vm.currentUser._id, vm.currentUser)
+                        .then(
+                            function (response) {
+                                // Need to reinit the page to propagate changes tp view.
+                                init();
+                            }
+                        );
+
                 }
             }
             vm.unfollowVisible = false;

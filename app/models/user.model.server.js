@@ -59,7 +59,7 @@ module.exports = function(db, mongoose) {
         delete user._id;
 
         /* Need to check for an existing username */
-        UserModel
+        return UserModel
             .findOne({email: user.email})
             .then(
                 function (result) {
@@ -86,7 +86,7 @@ module.exports = function(db, mongoose) {
 
     /* Deletes a user in the system and returns the status of the delete. */
     function deleteUser(userId) {
-        UserModel.remove(
+        return UserModel.remove(
             {_id: userId}
         );
     }
@@ -95,7 +95,7 @@ module.exports = function(db, mongoose) {
     function updateUser(userId, user) {
         /* MongoDB 2.4 cannot handle the _id field being in the update. */
         delete user._id;
-        UserModel.update(
+        return UserModel.update(
             {_id: userId},
             {$set: user}
         );

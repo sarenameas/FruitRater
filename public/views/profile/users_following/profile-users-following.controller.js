@@ -44,6 +44,8 @@
                         function (response) {
                             if (response.data) {
                                 vm.allUsersFollowing.push(response.data);
+                                vm.userPages = PagesService.splitItemsIntoPages(vm.allUsersFollowing,5);
+                                vm.getUsersForPage($routeParams.page);
                             }
                         }
                     );
@@ -60,8 +62,14 @@
         function unfollow(userId) {
            var index = vm.currentUser.usersFollowing.indexOf(userId);
             vm.currentUser.usersFollowing.splice(index, 1);
-            UserService.updateUser(vm.currentUser._id, vm.currentUser);
-            updateUsersPages();
+            UserService
+                .updateUser(vm.currentUser._id, vm.currentUser)
+                .then(
+                    function (response) {
+                        updateUsersPages();
+                    }
+                );
+
         }
 
         // Searches the system for the given username.

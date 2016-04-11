@@ -19,6 +19,7 @@
         vm.getFruitsForPage = getFruitsForPage;
         vm.search = search;
         vm.deleteGrocery = deleteGrocery;
+        // TODO: NEED TO ADD FOLLOW FUNCTION GROCERY STORES PAGES!!!!!!
         
         
         init();

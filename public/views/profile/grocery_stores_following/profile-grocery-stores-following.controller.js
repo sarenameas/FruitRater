@@ -55,8 +55,14 @@
         function unfollow(groceryId) {
             var index = vm.currentUser.groceryStoresFollowing.indexOf(groceryId);
             vm.currentUser.groceryStoresFollowing.splice(index, 1);
-            UserService.updateUser(vm.currentUser._id, vm.currentUser);
-            updateGroceryStoresPages();
+            UserService
+                .updateUser(vm.currentUser._id, vm.currentUser)
+                .then(
+                    function (response) {
+                        updateGroceryStoresPages();
+                    }
+                );
+
         }
 
 

@@ -34,7 +34,13 @@
             else
             {
                 vm.currentUser.password = vm.password;
-                UserService.updateUser(vm.currentUser._id, vm.currentUser);
+                UserService
+                    .updateUser(vm.currentUser._id, vm.currentUser)
+                    .then(
+                        function (response) {
+                            alert("Updated user profile.");
+                        }
+                    );
             }
         }
 
