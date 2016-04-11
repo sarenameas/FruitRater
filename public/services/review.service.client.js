@@ -3,7 +3,8 @@
         .module("FruitRaterApp")
         .factory("ReviewService", reviewService);
 
-    function reviewService() {
+    reviewService.$inject = ['$http'];
+    function reviewService($http) {
         // Mock data
         var reviews = [
             {
@@ -63,20 +64,8 @@
 
         return api;
 
-        /* Creates s new review in the system */
         function createReview(review) {
-            var newReview = {
-                "_id": (new Date).getTime(),
-                "fruit": review.fruit.toLowerCase(),
-                "groceryId": review.groceryId,
-                "userId": review.userId.toString(),
-                "rating": review.rating,
-                "date": new Date(),
-                "text": review.text
-            };
-
-            reviews.push(newReview);
-            return newReview;
+            return $http.post("/api/review", review);
         }
 
         /* Updates the review found by reviewId with the given review */

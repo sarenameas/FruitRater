@@ -133,6 +133,7 @@
             }
 
             if (submitOk) {
+                // TODO: Update to include other ratings details...
                 var review = {
                     "fruit": vm.fruit.toLowerCase(),
                     "groceryId": vm.grocery._id,
@@ -145,11 +146,22 @@
                     ReviewService.updateReview(vm.review._id, review);
                     $location.url("/grocery/" + vm.grocery._id + "/" + vm.fruit + "/1");
                 } else {
-                    ReviewService.createReview(review);
-                    $location.url("/grocery/" + $routeParams.groceryId + "/" + vm.fruit + "/1");
+                    ReviewService
+                        .createReview(review)
+                        .then(
+                            function (response) {
+                                if (response.data) {
+                                    $location.url("/grocery/" + $routeParams.groceryId + "/" + vm.fruit + "/1");
+                                }
+                                else {
+                                    alert("Error creating review.");
+                                }
+                            },
+                            function (err) {
+                                alert("Error creating review.");
+                            }
+                        );
                 }
-
-
             }
         }
 
