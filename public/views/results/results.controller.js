@@ -16,6 +16,8 @@
         vm.searchComb = "";
         vm.currentUser = UserService.getCurrentUser();
 
+        var default_location = "Seattle";
+
         search();
 
         /* Searches with location and searchString if availible. */
@@ -57,11 +59,18 @@
 
             switch (parseInt(vm.searchComb, 2)) {
             case 0:
-                // TODO: get the user location when not logged in
-                if (vm.currentUser != null) {
-                    groceryStores = GroceryService.findGroceryStoresByLocation(vm.currentUser.location);
-                    vm.results = groceryStores;
+                var location = default_location;
+                if (vm.currentUser && vm.currentUser.location) {
+                    location = vm.currentUser.location;
                 }
+                
+                GroceryService
+                    .findGroceryStoresByLocation(location)
+                    .then(
+                        function (groceryStores) {
+                            vm.results = groceryStores;
+                        }
+                    );
                 break;
             case 1:
                 // TODO: get top grocery store results from yelp for given location.

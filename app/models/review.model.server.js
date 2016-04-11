@@ -27,7 +27,7 @@ module.exports = function(db, mongoose) {
 
         // Need to stem the fruit name so only non-plural fruits are stored in the system.
         // TODO: Verify spelling of fruit name
-        review.fruit = stem(review.fruit);
+        //review.fruit = stem(review.fruit);
 
         return ReviewModel.create(review);
     }

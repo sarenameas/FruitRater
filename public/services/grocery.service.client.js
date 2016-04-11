@@ -7,7 +7,8 @@
         .module("FruitRaterApp")
         .factory("GroceryService", groceryService);
 
-    function groceryService() {
+    groceryService.$inject = ['$http', '$q'];
+    function groceryService($http, $q) {
 
         // Mock Data
         var groceryStores = [
@@ -30,7 +31,6 @@
 
         // API
         var api = {
-            groceryStores: groceryStores,
             findAllGroceryStores: findAllGroceryStores,
             findGroceryStoreById: findGroceryStoreById,
             findGroceryStoresByNameAndLocation: findGroceryStoresByNameAndLocation,
@@ -87,18 +87,34 @@
         }
         
         function findGroceryStoresByLocation(location) {
-            
-            // TODO: Use yelp api
-            
-            var i;
-            var groceryResults = [];
-            for (i = 0; i < groceryStores.length; i++) {
-                if (groceryStores[i].address.toLowerCase().includes(location.toLowerCase())) {
-                    groceryResults.push(groceryStores[i]);
-                }
-            }
-            
-            return groceryResults;
+            var deferred = $q.defer();
+            $http
+                .get("/api/search/grocery/" + "empty" + "/" + location)
+                .then(
+                    function (response) {
+                        var results = [];
+                        if (response.data) {
+                            var groceryStores = response.data.businesses;
+
+                            var i;
+                            for (i = 0; i < groceryStores.length; i++) {
+                                results.push(
+                                    {
+                                        "_id": groceryStores[i].id,
+                                        "name": groceryStores[i].name,
+                                        "address": groceryStores[i].location.display_address[0] + ", " + groceryStores[i].location.display_address[1]
+                                    }
+                                );
+                            }
+                        }
+                        deferred.resolve(results);
+                    },
+                    function (err) {
+                        deferred.reject(err);
+                    }
+                );
+
+            return deferred.promise;
         }
 
 
