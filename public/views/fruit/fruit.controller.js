@@ -30,17 +30,22 @@
 
         function init() {
             vm.fruit = $routeParams.fruit;
-            vm.grocery = GroceryService.findGroceryStoreById($routeParams.id);
-            vm.currentUser = UserService.getCurrentUser();
-            ReviewService
-                .getAverageRatingOfFruitAtGroceryStore(vm.fruit, vm.grocery._id)
+            GroceryService
+                .findGroceryStoreById($routeParams.id)
+                .then(
+                    function (groceryStore) {
+                        vm.grocery = groceryStore;
+                        return ReviewService.getAverageRatingOfFruitAtGroceryStore(vm.fruit, vm.grocery._id);
+                    }
+                )
                 .then(
                     function (response) {
                         vm.averageRating = response;
+                        updateReviewPages();
                     }
                 );
 
-            updateReviewPages();
+            vm.currentUser = UserService.getCurrentUser();
         }
 
         function updateReviewPages() {

@@ -104,11 +104,19 @@
                         }
                     );
                 break;
+
             case 4:
-                if (vm.currentUser != null) {
-                    groceryStores = GroceryService.findGroceryStoresByLocation(vm.currentUser.location);
-                    getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                var location = default_location;
+                if (vm.currentUser && vm.currentUser.location) {
+                    location = vm.currentUser.location;
                 }
+                GroceryService
+                    .findGroceryStoresByLocation(location)
+                    .then(
+                        function (groceryStores) {
+                            getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                        }
+                    );
                 break;
             case 5:
                 groceryStores = GroceryService.findGroceryStoresByLocation(vm.location);

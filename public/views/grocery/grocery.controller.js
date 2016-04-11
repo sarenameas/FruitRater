@@ -57,10 +57,9 @@
                                 vm.getFruitsForPage(1);
                             }
                         }
+                        getFollowingButtons();
                     }
                 );
-
-            getFollowingButtons();
         }
 
         function getFollowingButtons() {

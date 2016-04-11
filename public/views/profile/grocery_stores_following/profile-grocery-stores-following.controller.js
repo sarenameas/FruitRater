@@ -37,10 +37,15 @@
             var i;
 
             vm.allGroceryStoresFollowing = [];
+
             for (i = 0; i < vm.currentUser.groceryStoresFollowing.length; i++) {
-                vm.allGroceryStoresFollowing.push(
-                    GroceryService.findGroceryStoreById(vm.currentUser.groceryStoresFollowing[i])
-                );
+                GroceryService
+                    .findGroceryStoreById(vm.currentUser.groceryStoresFollowing[i])
+                    .then(
+                        function (groceryStore) {
+                            vm.allGroceryStoresFollowing.push( groceryStore );
+                        }
+                    );
             }
             vm.groceryStoresPages = PagesService.splitItemsIntoPages(vm.allGroceryStoresFollowing,5);
             vm.getGroceryStoresForPage($routeParams.page);

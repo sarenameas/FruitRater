@@ -9,45 +9,17 @@
 
     groceryService.$inject = ['$http', '$q'];
     function groceryService($http, $q) {
-
-        // Mock Data
-        var groceryStores = [
-            {
-                "_id": "1",
-                "name": "safeway",
-                "address": "12519 NE 85th St, Kirkland, WA"
-            },
-            {
-                "_id": "2",
-                "name": "safeway",
-                "address": "10020 NE 137th, Kirkland, WA"
-            },
-            {
-                "_id": "3",
-                "name": "safeway",
-                "address": "14444 124th Ave, Kirkland, WA"
-            }
-        ];
-
         // API
         var api = {
-            findAllGroceryStores: findAllGroceryStores,
             findGroceryStoreById: findGroceryStoreById,
             findGroceryStoresByNameAndLocation: findGroceryStoresByNameAndLocation,
             findGroceryStoresByLocation: findGroceryStoresByLocation,
-            deleteGroceryStore: deleteGroceryStore,
-            createGroceryStore: createGroceryStore,
-            updateGroceryStore: updateGroceryStore
+            deleteGroceryStore: deleteGroceryStore
         };
 
 
         return api;
 
-        /* Returns all groceries stores in the system */
-        function findAllGroceryStores() {
-            var allGroceryStores = groceryStores;
-            return allGroceryStores;
-        }
 
         function findGroceryStoreById(groceryId) {
             var deferred = $q.defer();
@@ -152,39 +124,7 @@
 
 
         function deleteGroceryStore(groceryId) {
-            var i;
-            for (i = 0; i < groceryStores.length; i++) {
-                if (groceryStores[i]._id === groceryId.toString()) {
-                    groceryStores.splice(i, 1);
-                }
-            }
-
-            return groceryStores;
-        }
-
-        function createGroceryStore(grocery) {
-            var newGrocery = {
-                "_id": grocery._id,
-                "name": grocery.name.toLowerCase(),
-                "address": grocery.address
-            }
-
-            groceryStores.push(newGrocery);
-            return newGrocery;
-        }
-
-        /* Updates the grocery store found with the given groceryID to the given grocery. */
-        function updateGroceryStore(groceryId, grocery) {
-            var i;
-            for (i = 0; i < groceryStores.length; i++) {
-                if (groceryStores[i]._id === groceryId.toString()) {
-                    groceryStores[i].name = grocery.name;
-                    groceryStores[i].address = grocery.address;
-                    return groceryStores[i];
-                }
-            }
-
-
+           //TODO: Delete all grocery store reviews
         }
     }
 })();

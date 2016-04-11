@@ -20,6 +20,7 @@
         <div ng-repeat="review in vm.reviews">
             <!-- The link to the fruit page of that grocery store -->
             <!-- TODO: Turn this grocery store fruit link into a directive because it is repeated ... -->
+            <!-- FIXME: problem with using async function like thi... -->
             <a ng-href="#/grocery/{{review.groceryId}}/{{review.fruit}}">
                 {{(vm.getGroceryStoreName(review.groceryId))}} -
                 {{(vm.getGroceryStoreAddress(review.groceryId))}} -

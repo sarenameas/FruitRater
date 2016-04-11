@@ -18,6 +18,7 @@
         <!-- TODO: Create seperate pages for every 10 reviews in order by date -->
         <div ng-repeat="review in vm.reviews">
             <!-- The link to the fruit page of that grocery store -->
+            <!-- FIXME: problem with using async function like this... -->
             <a ng-href="#/grocery/{{review.groceryId}}/{{review.fruit}}">
                 {{(vm.getGroceryStoreName(review.groceryId))}} -
                 {{(vm.getGroceryStoreAddress(review.groceryId))}} -
