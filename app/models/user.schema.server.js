@@ -11,7 +11,7 @@ module.exports = function(mongoose) {
             "picture": String,
             "usersFollowing": [String],
             "groceryStoresFollowing": [String],
-            "location": [String]
+            "location": String
         },
         {   collection: "users"
         }

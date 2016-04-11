@@ -14,12 +14,15 @@
         vm.fruitsPages = [];
         vm.fruitsPage = []
         vm.currentUser = null;
+        vm.unfollowVisible = false;
+        vm.followVisisible = false;
         
         // Event Handlers
         vm.getFruitsForPage = getFruitsForPage;
         vm.search = search;
         vm.deleteGrocery = deleteGrocery;
-        // TODO: NEED TO ADD FOLLOW FUNCTION GROCERY STORES PAGES!!!!!!
+        vm.follow = follow;
+        vm.unfollow = unfollow;
         
         
         init();
@@ -54,6 +57,23 @@
                         }
                     }
                 );
+
+            getFollowingButtons();
+        }
+
+        function getFollowingButtons() {
+            if (vm.currentUser == null) {
+                vm.unfollowVisible = false;
+                vm.followVisible = false;
+            }
+            else if (vm.currentUser.groceryStoresFollowing.indexOf(vm.grocery._id) > -1) {
+                vm.unfollowVisible = true;
+                vm.followVisible = false;
+            }
+            else {
+                vm.unfollowVisible = false;
+                vm.followVisible = true;
+            }
         }
         
         
@@ -81,6 +101,43 @@
                         alert("Problem with deleting this grocery store and all it's reviews.");
                     }
                 );
+        }
+
+        function follow(groceryId) {
+            if (vm.currentUser != null) {
+                if (vm.currentUser.groceryStoresFollowing.indexOf(groceryId) === -1) {
+                    vm.currentUser.groceryStoresFollowing.push(groceryId);
+                    UserService
+                        .updateUser(vm.currentUser._id, vm.currentUser)
+                        .then(
+                            function (response) {
+                                vm.unfollowVisible = true;
+                                vm.followVisible = false;
+                            }
+                        )
+
+                }
+            }
+
+        }
+
+        function unfollow(groceryId) {
+            if (vm.currentUser != null) {
+                var index = vm.currentUser.groceryStoresFollowing.indexOf(groceryId);
+                if (index > -1) {
+                    vm.currentUser.groceryStoresFollowing.splice(index, 1);
+                    UserService
+                        .updateUser(vm.currentUser._id, vm.currentUser)
+                        .then(
+                            function (response) {
+                                vm.unfollowVisible = false;
+                                vm.followVisible = true;
+                            }
+                        );
+
+                }
+            }
+
         }
     }
 })();

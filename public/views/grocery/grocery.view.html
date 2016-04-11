@@ -11,16 +11,19 @@
         review!    
         </p>
     </div>
+    <div>
+        <a href="#/review/{{vm.grocery._id}}" class="float-left">Write a Review</a>
 
-    <p class="float-left">
-        <a href="#/review/{{vm.grocery._id}}">Write a Review</a>
-    </p>
-
-    <p class="float-right" ng-show="vm.currentUser.admin">
-        <button ng-click="vm.deleteGrocery()" class="btn btn-default">Delete this grocery store</button>
-    </p>
-
-    <!-- TODO: Need to add button to follow grocery store! -->
+        <p class="float-right" ng-show="vm.currentUser.admin">
+            <button ng-click="vm.deleteGrocery()" class="btn btn-default">Delete this grocery store</button>
+            <div ng-show="vm.followVisible" class="right-align">
+                <button ng-click="vm.follow(vm.grocery._id)" class="btn btn-default">Follow</button>
+            </div>
+            <div ng-show="vm.unfollowVisible" class="right-align">
+                <button ng-click="vm.unfollow(vm.grocery._id)" class="btn btn-default">Unfollow</button>
+            </div>
+        </p>
+    </div>
     
     <div ng-show="vm.fruits.length > 0">
 

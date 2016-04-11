@@ -28,25 +28,35 @@
                     function (response) {
                         if (response.data) {
                             vm.user = response.data;
+                            return ReviewService.findAllReviewsForUser(vm.user._id);
+                        }
+                    }
+                )
+                .then (
+                    function (response) {
+                        if (response.data) {
+                            var userReviews = response.data;
+                            vm.numReviews = userReviews.length;
+
+                            vm.currentUser = UserService.getCurrentUser();
+
+                            if (vm.currentUser == null) {
+                                vm.unfollowVisible = false;
+                                vm.followVisible = false;
+                            }
+                            else if (vm.currentUser.usersFollowing.indexOf(vm.user._id) > -1) {
+                                vm.unfollowVisible = true;
+                                vm.followVisible = false;
+                            }
+                            else {
+                                vm.unfollowVisible = false;
+                                vm.followVisible = true;
+                            }
                         }
                     }
                 );
-            //vm.currentUser = UserService.getCurrentUser();
-            //var userReviews = ReviewService.findAllReviewsForUser(vm.user._id);
-            //vm.numReviews = userReviews.length;
 
-            if (vm.currentUser == null) {
-                vm.unfollowVisible = false;
-                vm.followVisible = false;
-            }
-            else if (vm.currentUser.usersFollowing.indexOf(vm.user._id) > -1) {
-                vm.unfollowVisible = true;
-                vm.followVisible = false;
-            }
-            else {
-                vm.unfollowVisible = false;
-                vm.followVisible = true;
-            }
+
         }
 
         function follow(userId) {

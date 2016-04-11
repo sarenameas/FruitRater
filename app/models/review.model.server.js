@@ -1,3 +1,5 @@
+var stem = require('stem-porter');
+
 module.exports = function(db, mongoose) {
     var ReviewSchema = require("./review.schema.server.js")(mongoose);
     var ReviewModel = mongoose.model('Review', ReviewSchema);
@@ -20,8 +22,12 @@ module.exports = function(db, mongoose) {
 
     /* Creates a review in the system and returns the status */
     function createReview(review) {
-        // Defenseive delete id just in case it is there
+        // Defensive delete id just in case it is there
         delete review._id;
+
+        // Need to stem the fruit name so only non-plural fruits are stored in the system.
+        // TODO: Verify spelling of fruit name
+        review.fruit = stem(review.fruit);
 
         return ReviewModel.create(review);
     }
