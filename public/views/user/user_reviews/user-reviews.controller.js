@@ -63,16 +63,31 @@
         }
 
         function getGroceryStoreName(groceryId) {
+            /*
             // FIXME: Problem with ng-repeat and names
-            GroceryService.findGroceryStoreById(groceryId).name;
-            name = name.charAt(0).toUpperCase() + name.slice(1);
-            return name;
+            GroceryService
+                .findGroceryStoreById(groceryId)
+                .then(
+                    function (groceryStore) {
+                        var name = groceryStore.name;
+                        name = name.charAt(0).toUpperCase() + name.slice(1);
+                        return name;
+                    }
+                );
+                */
         }
 
         function getGroceryStoreAddress(groceryId) {
+            /*
             // FIXME: this needs to be changed.
-            var address = GroceryService.findGroceryStoreById(groceryId).address;
-            return address;
+            GroceryService.findGroceryStoreById(groceryId)
+                .then(
+                    function (groceryStore) {
+                        var address = groceryStore.address;
+                        return address;
+                    }
+                );
+                */
         }
 
 

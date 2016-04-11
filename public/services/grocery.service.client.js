@@ -29,13 +29,20 @@
                     function (response) {
                         var groceryStore = null;
                         if (response.data) {
-                            var groceryStore = {
-                                "_id": response.data.id,
-                                "name": response.data.name,
-                                "address": response.data.location.display_address[0] + ", " + response.data.location.display_address[1]
-                            };
+                            if (response.data.error) {
+                                // do nothing no grocery store found.
+                            }
+                            else {
+                                var groceryStore = {
+                                    "_id": response.data.id,
+                                    "name": response.data.name,
+                                    "address": response.data.location.display_address[0] + ", " + response.data.location.display_address[1]
+                                };
+
+                            }
                         }
                         deferred.resolve(groceryStore);
+
                     },
                     function (err) {
                         deferred.reject(err);
