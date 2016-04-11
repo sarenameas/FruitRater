@@ -37,8 +37,17 @@
              * stand alone. Feels like there is some coupling here... */
             function deleteReview(reviewId) {
                 //console.log(reviewId);
-                ReviewService.deleteReview(reviewId);
-                $scope.deleteUpdate();
+                ReviewService
+                    .deleteReview(reviewId)
+                    .then(
+                        function (response) {
+                            $scope.deleteUpdate();
+                        },
+                        function (err) {
+                            alert("Problem with deleting review");
+                        }
+                    );
+
             }
 
         }

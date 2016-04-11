@@ -74,14 +74,14 @@ module.exports = function(db, mongoose) {
 
     /* Deletes the review in the system by the reviewId, returns the status. */
     function deleteReview(reviewId) {
-        return ReviewModel.delete(
+        return ReviewModel.remove(
             {_id: reviewId}
         )
     }
 
     /* Deletes all the reviews for the given fruit and groceryId, returns the status. */
     function deleteFruitReviews(fruit, groceryId) {
-        return ReviewModel.delete(
+        return ReviewModel.remove(
             {
                 fruit: fruit,
                 groceryId: groceryId
@@ -91,14 +91,14 @@ module.exports = function(db, mongoose) {
 
     /* Deletes all the reviews for the given groceryId */
     function deleteGroceryStoreReviews(groceryId) {
-        return ReviewModel.delete(
+        return ReviewModel.remove(
             {groceryId: groceryId}
         )
     }
 
     /* Deletes all the reviews for the given userId */
     function deleteUserReviews(userId) {
-        return ReviewModel.delete(
+        return ReviewModel.remove(
             {userId: userId}
         )
     }

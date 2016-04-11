@@ -86,12 +86,7 @@
         }
 
         function deleteReview(reviewId) {
-            var i;
-            for(i=0; i < reviews.length; i++) {
-                if (reviews[i]._id === reviewId) {
-                    reviews.splice(i, 1);
-                }
-            }
+            return $http.delete("/api/review/" + reviewId);
         }
 
         /* Deletes all of the specified fruit for that grocery store */
