@@ -75,11 +75,9 @@
                         .register(user)
                         .then(
                             function (response) {
-                                if (response.data) {
-                                    var userResponse = response.data;
-                                    UserService.setCurrentUser(userResponse);
-                                    $location.url("/profile");
-                                }
+                                var userResponse = response.data;
+                                UserService.setCurrentUser(userResponse);
+                                $location.url("/profile");
                             },
                             function (err) {
                                 alert(err);

@@ -51,7 +51,7 @@ module.exports = function(db, mongoose) {
         return UserModel.find();
     }
 
-    /* Creates a user in the system and returns the newly created user or a rejection. */
+    /* Creates a user in the system and returns status. */
     function createUser(user) {
         var deferred = q.defer();
 
@@ -66,14 +66,15 @@ module.exports = function(db, mongoose) {
                     if (result) {
                         deferred.reject("User for this email already exists");
                     } else {
+                        return UserModel.create(user);
+                        /*
                         UserModel.create(user, function (err, doc) {
                             if (err) {
                                 deferred.reject(err);
                             } else {
-                                /* This doc from the Database is the newly created user!*/
                                 deferred.resolve(doc);
                             }
-                        });
+                        });*/
                     }
                 },
                 function (err) {

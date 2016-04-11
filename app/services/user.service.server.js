@@ -27,7 +27,7 @@ module.exports = function(app, UserModel) {
 
     // TODO: Session user register stuff
     function register(req, res) {
-        createUser(req, res);
+        return createUser(req, res)
     }
 
     //TODO: Passport and session stuff for logging out
@@ -46,8 +46,8 @@ module.exports = function(app, UserModel) {
         UserModel
             .createUser(newUser)
             .then(
-                function (user) {
-                    res.json(user);
+                function (status) {
+                    res.json(status);
                 },
                 function (err) {
                     res.status(400).send(err);
