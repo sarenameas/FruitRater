@@ -61,24 +61,29 @@
                     function (response) {
                         var results = [];
                         if (response.data) {
-                            var groceryStores = response.data.businesses;
+                            if (response.data.error) {
+                                // do nothing no grocery store found.
+                            }
+                            else {
+                                var groceryStores = response.data.businesses;
 
-                            var i;
-                            var j;
-                            for (i = 0; i < groceryStores.length; i++) {
-                                var address = "";
-                                for (j = 0; j < groceryStores[i].location.display_address.length; j++) {
-                                    address = address + groceryStores[i].location.display_address[j] + ", ";
-                                }
-                                // Delete trailing comma and space
-                                address = address.substring(0, address.length - 2);
-                                results.push(
-                                    {
-                                        "_id": groceryStores[i].id,
-                                        "name": groceryStores[i].name,
-                                        "address": address
+                                var i;
+                                var j;
+                                for (i = 0; i < groceryStores.length; i++) {
+                                    var address = "";
+                                    for (j = 0; j < groceryStores[i].location.display_address.length; j++) {
+                                        address = address + groceryStores[i].location.display_address[j] + ", ";
                                     }
-                                );
+                                    // Delete trailing comma and space
+                                    address = address.substring(0, address.length - 2);
+                                    results.push(
+                                        {
+                                            "_id": groceryStores[i].id,
+                                            "name": groceryStores[i].name,
+                                            "address": address
+                                        }
+                                    );
+                                }
                             }
                         }
                         deferred.resolve(results);
@@ -99,25 +104,31 @@
                     function (response) {
                         var results = [];
                         if (response.data) {
-                            var groceryStores = response.data.businesses;
-
-                            var i;
-                            var j;
-                            for (i = 0; i < groceryStores.length; i++) {
-                                var address = "";
-                                for (j = 0; j < groceryStores[i].location.display_address.length; j++) {
-                                    address = address + groceryStores[i].location.display_address[j] + ", ";
-                                }
-                                // Delete trailing comma and space
-                                address = address.substring(0, address.length - 2);
-                                results.push(
-                                    {
-                                        "_id": groceryStores[i].id,
-                                        "name": groceryStores[i].name,
-                                        "address": address
-                                    }
-                                );
+                            if (response.data.error) {
+                                // do nothing no grocery store found.
                             }
+                            else {
+                                var groceryStores = response.data.businesses;
+
+                                var i;
+                                var j;
+                                for (i = 0; i < groceryStores.length; i++) {
+                                    var address = "";
+                                    for (j = 0; j < groceryStores[i].location.display_address.length; j++) {
+                                        address = address + groceryStores[i].location.display_address[j] + ", ";
+                                    }
+                                    // Delete trailing comma and space
+                                    address = address.substring(0, address.length - 2);
+                                    results.push(
+                                        {
+                                            "_id": groceryStores[i].id,
+                                            "name": groceryStores[i].name,
+                                            "address": address
+                                        }
+                                    );
+                                }
+                            }
+
                         }
                         deferred.resolve(results);
                     },
