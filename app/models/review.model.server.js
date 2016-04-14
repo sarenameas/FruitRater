@@ -1,5 +1,3 @@
-var stem = require('stem-porter');
-
 module.exports = function(db, mongoose) {
     var ReviewSchema = require("./review.schema.server.js")(mongoose);
     var ReviewModel = mongoose.model('Review', ReviewSchema);
