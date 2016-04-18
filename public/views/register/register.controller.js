@@ -14,6 +14,9 @@
         vm.verifyError = false;
         vm.emailError = false;
 
+        vm.registerError = false;
+        vm.emailExists = false;
+
         // Event handlers
         vm.register = register;
 
@@ -75,12 +78,18 @@
                         .register(user)
                         .then(
                             function (response) {
-                                var userResponse = response.data;
-                                UserService.setCurrentUser(userResponse);
-                                $location.url("/profile");
+                                if (response.data) {
+                                    vm.registerError = false;
+                                    vm.emailExists = false;
+                                    var userResponse = response.data;
+                                    UserService.setCurrentUser(userResponse);
+                                    $location.url("/profile");
+                                } else {
+                                    vm.emailExists = true;
+                                }
                             },
                             function (err) {
-                                alert(err);
+                                vm.registerError = true;
                             }
                         );
                 }

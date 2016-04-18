@@ -7,6 +7,8 @@
     function loginController($location, UserService) {
         var vm = this;
 
+        vm.incorrect = false;
+
         // Event Handlers
         vm.login = login;
 
@@ -23,13 +25,19 @@
                 .then(
                     function (response) {
                         if (response.data) {
+                            vm.incorrect = false;
                             var user = response.data;
                             UserService.setCurrentUser(user);
                             $location.url("/profile");
                         }
                         else {
-                            alert("Incorrect Email or Password.");
+                            vm.incorrect = true;
+                            console.log("Incorrect email or password");
                         }
+                    },
+                    function (err) {
+                        console.log("Incorrect email or password");
+                        vm.incorrect = true;
                     }
                 );
         }
