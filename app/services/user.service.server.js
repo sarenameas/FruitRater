@@ -1,8 +1,11 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var bcrypt = require("bcrypt-nodejs");
+var multer = require("multer");
 
 module.exports = function(app, UserModel) {
+    var pictures = multer({ dest: __dirname + "../../public/pictures"});
+
     var auth = authorized;
     app.post("/api/login", passport.authenticate('local'), login);
     app.post("/api/logout", logout);
