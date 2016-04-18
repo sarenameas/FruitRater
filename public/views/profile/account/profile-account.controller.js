@@ -33,6 +33,8 @@
             {
                 if (vm.password != "" && vm.password != null) {
                     vm.currentUser.password = vm.password;
+                } else {
+                    delete vm.currentUser.password;
                 }
                 UserService
                     .updateUser(vm.currentUser._id, vm.currentUser)

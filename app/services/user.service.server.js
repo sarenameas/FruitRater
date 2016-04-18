@@ -26,12 +26,17 @@ module.exports = function(app, UserModel) {
             .findUserByEmail(email)
             .then (
                 function (user) {
+                    console.log(user);
                     if (!user) {
                         return done(null, false);
-                    } else if(bcrypt.compareSync(password, user.password)) {
-                        return done(null, user);
                     } else {
-                        return done(null, false);
+                        bcrypt.compare(password, user.password, function (err, res) {
+                            if (res) {
+                                return done(null, user)  ;
+                            } else {
+                                return done(null, false);
+                            }
+                        })
                     }
                 },
                 function (err) {
@@ -119,7 +124,7 @@ module.exports = function(app, UserModel) {
     }
 
     function loggedin(req, res) {
-        res.send(req.isAuthenticated() ? req.user : '0');
+        res.send(req.isAuthenticated() ? req.user : null);
     }
 
     function createUser(req, res) {
