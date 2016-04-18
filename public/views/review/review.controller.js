@@ -5,8 +5,7 @@
 
     reviewController.$inject = ['$routeParams', '$location', 'GroceryService', 'UserService', 'ReviewService'];
     function reviewController($routeParams, $location, GroceryService, UserService, ReviewService) {
-        /* TODO: All view DOM manipulations should be in directives like errors on forms, star ratings,  etc.
-           Controllers are for passing data and reading input data ONLY
+        /* TODO: Make selectable fruit list
          */
 
         var vm = this;

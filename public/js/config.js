@@ -114,24 +114,32 @@
             // The review page will not reroute for not logged in user.
             .when("/review", {
                 templateUrl: "views/review/review.view.html",
+                controller: "ReviewController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
             .when("/review/:groceryId", {
                 templateUrl: "views/review/review.view.html",
+                controller: "ReviewController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
             .when("/review/edit/:id", {
                 templateUrl: "views/review/review.view.html",
+                controller: "ReviewController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
             .when("/review/:groceryId/:fruit", {
                 templateUrl: "views/review/review.view.html",
+                controller: "ReviewController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }

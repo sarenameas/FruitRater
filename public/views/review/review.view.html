@@ -1,70 +1,70 @@
-<div ng-controller="ReviewController as vm" class="container">
+<div ng-controller="ReviewController as model" class="container">
     <h1>Review</h1>
     <hr>
 
-    <div ng-hide="vm.grocery">
+    <div ng-if="!model.grocery">
         Invalid Grocery Store.
     </div>
 
-    <div ng-hide="vm.currentUser && vm.grocery">
+    <div ng-if="!model.currentUser">
 
         Please <a href="#/login">log in</a> or <a href="#/register">register</a> to write a review!
 
     </div>
 
 
-    <div ng-show="vm.currentUser && vm.grocery">
+    <div ng-show="model.currentUser && model.grocery">
 
         <p>
-            <a ng-href="#/grocery/{{vm.grocery._id}}">
-                {{vm.grocery.name.charAt(0).toUpperCase() + vm.grocery.name.slice(1)}}&nbsp;
-                - {{vm.grocery.address}}
+            <a ng-href="#/grocery/{{model.grocery._id}}">
+                {{model.grocery.name.charAt(0).toUpperCase() + model.grocery.name.slice(1)}}&nbsp;
+                - {{model.grocery.address}}
             </a>
         </p>
 
         <p>
         <div class="col-sm-offset-2 col-sm-8">
             <form class="form-horizontal">
-                <div ng-class="{'form-group': true, 'has-error': vm.fruitError}">
+                <div ng-class="{'form-group': true, 'has-error': model.fruitError}">
                     <label class="col-sm-3 control-label">Fruit:</label>
-                    <div class="col-sm-9" ng-hide="vm.edit">
-                        <input ng-model="vm.fruit"
+                    <div class="col-sm-9" ng-hide="model.edit">
+                        <input ng-model="model.fruit"
                                type="text"
                                class="form-control"
                                placeholder="Clementine, Pear, ...">
                     </div>
-                    <div class="col-sm-9" ng-show="vm.edit">
-                        {{vm.fruit.charAt(0).toUpperCase() + vm.fruit.slice(1)}}
+                    <div class="col-sm-9" ng-show="model.edit">
+                        {{model.fruit.charAt(0).toUpperCase() + model.fruit.slice(1)}}
                     </div>
                 </div>
                 <!-- TODO: Star ratings needs to be a directive to manipulate the DOM -->
-                <div ng-class="{'form-group': true, 'has-error': vm.ratingError}">
+                <div ng-class="{'form-group': true, 'has-error': model.ratingError}">
                     <label class="col-sm-3 control-label">Rating:</label>
                     <div class="col-sm-9">
                         <span class="rating">
-                            <span ng-click="vm.rate5star()" ng-bind-html="vm.stars[4]"></span>
+                            <span ng-click="model.rate5star()" ng-bind-html="model.stars[4]"></span>
                             &nbsp;
-                            <span ng-click="vm.rate4star()" ng-bind-html="vm.stars[3]"></span>
+                            <span ng-click="model.rate4star()" ng-bind-html="model.stars[3]"></span>
                             &nbsp;
-                            <span ng-click="vm.rate3star()" ng-bind-html="vm.stars[2]"></span>
+                            <span ng-click="model.rate3star()" ng-bind-html="model.stars[2]"></span>
                             &nbsp;
-                            <span ng-click="vm.rate2star()" ng-bind-html="vm.stars[1]"></span>
+                            <span ng-click="model.rate2star()" ng-bind-html="model.stars[1]"></span>
                             &nbsp;
-                            <span ng-click="vm.rate1star()" ng-bind-html="vm.stars[0]"></span>
+                            <span ng-click="model.rate1star()" ng-bind-html="model.stars[0]"></span>
                         </span>
                     </div>
                 </div>
 
-                <div ng-class="{'form-group': true, 'has-error': vm.commentsError}">
+                <div ng-class="{'form-group': true, 'has-error': model.commentsError}">
                     <label class="col-sm-3 control-label">Comments:</label>
                     <div class="col-sm-9">
-                        <textarea ng-model="vm.comments" class="form-control" rows="9"></textarea>
+                        <textarea ng-model="model.comments" class="form-control" rows="9"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
-                        <button ng-click="vm.submit()"
+                        <button ng-click="model.submit()"
                                 class="btn btn-default btn-block">
                             Submit
                         </button>

@@ -50,7 +50,7 @@
                             }
                             vm.fruits.sort();
 
-                            vm.fruitsPages = PagesService.splitItemsIntoPages(vm.fruits, 10);
+                            vm.fruitsPages = PagesService.splitItemsIntoPages(vm.fruits, 12);
                             if ($routeParams.page) {
                                 vm.getFruitsForPage($routeParams.page);
                             } else {

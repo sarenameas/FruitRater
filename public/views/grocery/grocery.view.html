@@ -60,7 +60,7 @@
                    in the wireframe. -->
         <span ng-repeat="fruit in vm.fruitsPage track by $index">
 
-            <span id="fruit-grocery">
+            <span class="col-xs-3 fruit-grocery">
                 <a ng-href="#/grocery/{{vm.grocery._id}}/{{fruit}}">
                     {{fruit.charAt(0).toUpperCase() + fruit.slice(1)}}
                 </a>

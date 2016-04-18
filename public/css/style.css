@@ -109,18 +109,19 @@
 }
 
 /* Custom style for fruits listed on grocery page */
-#fruit-grocery {
-    margin: 10px;
-    height: 10vh;
-    line-height: 10vh;
+.fruit-grocery {
+    margin: 2vw;
+    height: 100px;
+    line-height: 100px;
     text-align: center;
-    width: 25vw;
-    float: left;
+    width: 200px;
+    /*float: left;*/
     border-style: solid;
     border-color: black;
     border-width: 1px;
+    position: relative;
+    min-height: 100px;
 }
-
 
 
 /* Star ratings style */
