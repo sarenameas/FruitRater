@@ -83,24 +83,32 @@
             // We can view grocery stores without being logged in.
             .when("/grocery/:id", {
                 templateUrl: "views/grocery/grocery.view.html",
+                controller: "GroceryController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
             .when("/grocery/:id/page=:page", {
                 templateUrl: "views/grocery/grocery.view.html",
+                controller: "GroceryController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
             .when("/grocery/:id/:fruit", {
                 templateUrl: "views/fruit/fruit.view.html",
+                controller: "FruitController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
             .when("/grocery/:id/:fruit/:page", {
                 templateUrl: "views/fruit/fruit.view.html",
+                controller: "FruitController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
