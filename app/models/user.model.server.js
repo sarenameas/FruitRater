@@ -56,19 +56,26 @@ module.exports = function(db, mongoose) {
         delete user._id;
 
         // Need to one way encrypt password into database.
-        bcrypt
-            .hashAsync(user.password)
-            .then(
-                function(hash) {
-                    user.password = hash;
-                    return UserModel.create(user);
-                },
-                function(err) {
-                    deferred.reject(err);
-                }
-            );
+        bcrypt.hash(user.password, null, null, function (err, hash) {
 
-        return deferred.promise
+            if (err) {
+                deferred.reject(err);
+            } else {
+                user.password = hash;
+                UserModel
+                    .create(user)
+                    .then(
+                        function (user) {
+                            deferred.resolve(user);
+                        },
+                        function (err) {
+                            deferred.reject(err);
+                        }
+                    )
+            }
+        });
+
+        return deferred.promise;
     }
 
     function findUserByEmail(email) {
@@ -84,30 +91,52 @@ module.exports = function(db, mongoose) {
 
     /* Updates the user in the system and returns the status of the update. */
     function updateUser(userId, user) {
-        /* MongoDB 2.4 cannot handle the _id field being in the update. */
-        delete user._id;
-        if (user.location) {
-            user.location = user.location.toLowerCase();
-        }
 
+        var deferred = q.defer();
+
+        // MongoDB 2.4 cannot handle the _id field in the input object.
+        delete user._id;
+
+        // Need to one way encrypt password into database.
         if (user.password) {
-            bcrypt
-                .hashAsync(user.password)
-                .then (
-                    function (hash) {
-                        user.password = hash;
-                        return UserModel.update(
+            bcrypt.hash(user.password, null, null, function (err, hash) {
+
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    user.password = hash;
+                    UserModel
+                        .update(
                             {_id: userId},
                             {$set: user}
-                        );
+                        )
+                        .then(
+                            function (user) {
+                                deferred.resolve(user);
+                            },
+                            function (err) {
+                                deferred.reject(err);
+                            }
+                        )
+                }
+            });
+        } else {
+            UserModel
+                .update(
+                    {_id: userId},
+                    {$set: user}
+                )
+                .then(
+                    function (user) {
+                        deferred.resolve(user);
+                    },
+                    function (err) {
+                        deferred.reject(err);
                     }
                 )
-        } else {
-            return UserModel.update(
-                {_id: userId},
-                {$set: user}
-            );
         }
+
+        return deferred.promise;
     }
 
 };

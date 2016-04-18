@@ -10,11 +10,12 @@
         // Event Handlers
         vm.login = login;
 
-        // Logs the user in if the username and password match.
+        // Logs the user in if the email and password match.
         function login() {
+            // *The local strategy expects a username credential.
             var credentials = {
-                email: vm.email,
-                password: vm.password
+                "username": vm.email,
+                "password": vm.password
             };
 
             UserService

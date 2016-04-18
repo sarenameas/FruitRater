@@ -21,6 +21,7 @@ module.exports = function(app, UserModel) {
     passport.deserializeUser(deserializeUser);
 
     function localStrategy(email, password, done) {
+        // Local strategy expects a username, but I will be using an email to log in instead.
         UserModel
             .findUserByEmail(email)
             .then (
@@ -79,7 +80,6 @@ module.exports = function(app, UserModel) {
         var newUser = req.body;
         // Thwart attempts to make a hacker into an admin
         newUser.admin = false;
-
         // Find if this email exists and if it does don't login.
         UserModel
             .findUserByEmail(newUser.email)
@@ -88,7 +88,7 @@ module.exports = function(app, UserModel) {
                     if (user) {
                         res.json(null);
                     } else {
-                        return createUser(newUser);
+                        return UserModel.createUser(newUser);
                     }
                 },
                 function (err) {

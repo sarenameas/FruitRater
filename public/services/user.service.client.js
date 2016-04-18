@@ -32,8 +32,9 @@
             $rootScope.currentUser = user;
         }
 
-        function login(credentials) {
-            return $http.post("/api/login", credentials);
+        function login(user) {
+            console.log(user);
+            return $http.post("/api/login", user);
         }
 
         function register(user) {
