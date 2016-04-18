@@ -22,7 +22,8 @@
             })
             .when("/profile", {
                 templateUrl: "views/profile/account/profile-account.view.html",
-                controller: "ProfileAccountController"
+                controller: "ProfileAccountController",
+                controllerAs: "model"
             })
             .when("/profile/account", {
                 templateUrl: "views/profile/account/profile-account.view.html",

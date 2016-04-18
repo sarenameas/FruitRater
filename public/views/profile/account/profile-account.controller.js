@@ -10,8 +10,10 @@
         // Get the currentUser items to fill in
         vm.currentUser = UserService.getCurrentUser();
         // There is no password error initially
-        // TODO: This logic probably shouldnt be here???
+        // TODO: This logic probably shouldn't be here???
         vm.passwordError = false;
+
+        vm.profileUpdated = false;
 
         // Event Handlers
         vm.update = update;
@@ -29,12 +31,14 @@
             }
             else
             {
-                vm.currentUser.password = vm.password;
+                if (vm.password != "" && vm.password != null) {
+                    vm.currentUser.password = vm.password;
+                }
                 UserService
                     .updateUser(vm.currentUser._id, vm.currentUser)
                     .then(
                         function (response) {
-                            alert("Updated user profile.");
+                            vm.profileUpdated = true;
                         }
                     );
             }

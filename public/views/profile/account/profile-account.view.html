@@ -1,14 +1,17 @@
 <div class="container">
     <div ng-include src="'views/profile/header/profile-header.view.html'"></div>
 
-    <div ng-controller="ProfileAccountController as account">
+    <div ng-controller="ProfileAccountController as model">
+        <div ng-if="model.profileUpdated">
+            <div style="color:red">Profile updated.</div>
+        </div>
         <div class="col-sm-4 center-align">
-            <img id="img-profile" ng-src="{{account.currentUser.picture}}"><br>
+            <img id="img-profile" ng-src="{{model.currentUser.picture}}"><br>
             <div class="form-group">
-                <input ng-model="account.path" type="file" class="form-control"></input>
+                <input ng-model="model.path" type="file" class="form-control"></input>
             </div>
             <div class="form-group">
-                <button ng-click="account.upload()" type="submit" class="btn btn-block">Upload a Picture</button>
+                <button ng-click="model.upload()" type="submit" class="btn btn-block">Upload a Picture</button>
             </div>
         </div>
         <div class="col-sm-8">
@@ -16,36 +19,36 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Username:</label>
                     <div class="col-sm-10">
-                        <input ng-model="account.currentUser.username" type="text" class="form-control" placeholder="Username">
+                        <input ng-model="model.currentUser.username" type="text" class="form-control" placeholder="Username">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Email:</label>
                     <div class="col-sm-10">
-                        <input ng-model="account.currentUser.email" type="email" class="form-control" placeholder="Email">
+                        <input ng-model="model.currentUser.email" type="email" class="form-control" placeholder="Email">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Location:</label>
                     <div class="col-sm-10">
-                        <input ng-model="account.currentUser.location" type="text" class="form-control" placeholder="City, State or Zipcode where you shop the most :)">
+                        <input ng-model="model.currentUser.location" type="text" class="form-control" placeholder="City, State or Zipcode where you shop the most :)">
                     </div>
                 </div>
-                <div ng-class="{'form-group': true, 'has-error': account.passwordError}">
+                <div ng-class="{'form-group': true, 'has-error': model.passwordError}">
                     <label class="col-sm-2 control-label">Password:</label>
                     <div class="col-sm-10">
-                        <input ng-model="account.password" type="password" class="form-control" placeholder="Password">
+                        <input ng-model="model.password" type="password" class="form-control" placeholder="Password">
                     </div>
                 </div>
-                <div ng-class="{'form-group': true, 'has-error': account.passwordError}">
+                <div ng-class="{'form-group': true, 'has-error': model.passwordError}">
                     <label class="col-sm-2 control-label">Verify Password:</label>
                     <div class="col-sm-10">
-                        <input ng-model="account.verify" type="password" class="form-control" placeholder="Verify password">
+                        <input ng-model="model.verify" type="password" class="form-control" placeholder="Verify password">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button ng-click="account.update()" type="submit" class="btn btn-block">Update</button>
+                        <button ng-click="model.update()" type="submit" class="btn btn-block">Update</button>
                     </div>
                 </div>
 
