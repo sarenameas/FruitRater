@@ -5,9 +5,17 @@ var multer = require("multer");
 var fs = require("fs");
 
 module.exports = function(app, UserModel) {
-    var upload = multer({ dest: __dirname+'/../../public/pictures' });
+    var uploadMulter = multer({
+        dest: __dirname+'/../../public/pictures',
+        limits: {
+            files: 1,
+            fileSize: 100000
+        }
+    });
+    var upload = uploadMulter.single('picFile');
 
     var auth = authorized;
+
     app.post("/api/login", passport.authenticate('local'), login);
     app.post("/api/logout", logout);
     app.get("/api/loggedin", loggedin);
@@ -20,7 +28,7 @@ module.exports = function(app, UserModel) {
     app.delete("/api/user/:userId", auth, deleteUser);
     app.put("/api/user/:userId", auth, updateUser);
 
-    app.post("/api/upload", upload.single('picFile'), uploadImage);
+    app.post("/api/upload", uploadImage);
 
     passport.use(new LocalStrategy(localStrategy));
     passport.serializeUser(serializeUser);
@@ -225,52 +233,70 @@ module.exports = function(app, UserModel) {
 
     function uploadImage(req, res) {
 
-        var picFile = req.file;
+        upload(req, res, function (err) {
+            if (err) {
+                res.status(400).send("Image file size limit is 100kB. Please try again")
+            } else {
+                var picFile = req.file;
+                var userId = req.body.userId;
 
-        if (picFile) {
-            var destination   = picFile.destination;
-            var path          = picFile.path;
-            var originalname  = picFile.originalname;
-            var size          = picFile.size;
-            var mimetype      = picFile.mimetype;
-            var filename      = picFile.filename;
-        }
+                console.log(picFile);
+                console.log(userId);
 
-
-        console.log(destination);
-        console.log(path);
-        console.log(originalname);
-        console.log(size);
-        console.log(mimetype);
-        console.log(filename);
-
-        // We must ccheck for a valid upload
-        if (!mimetype.includes("image") || size > 1000000) {
-            fs.unlink(path, function(err) {
-                if (err) {
-                    console.log(err);
-                    res.send(400).send(err);
-                } else {
-                    res.send(200);
-                }
-            });
-        } else {
-            fs.unlink(path, function(err) {
-                if (err) {
-                    console.log(err);
-                    res.send(400).send(err);
-                } else {
-                    res.send(200);
+                if (picFile) {
+                    var destination   = picFile.destination;
+                    var path          = picFile.path;
+                    var originalname  = picFile.originalname;
+                    var size          = picFile.size;
+                    var mimetype      = picFile.mimetype;
+                    var filename      = picFile.filename;
                 }
 
-                // TODO: Update the user with the path to the picture
-                /*
-                 UserModel
-                 .updateUser()
-                 */
-            });
-        }
-
+                // We must check for a valid upload, else delete from our system!
+                if (!mimetype.includes("image") || size > 100000) {
+                    fs.unlink(path, function (err) {
+                        if (err) {
+                            console.log(err);
+                            res.status(400).send(err);
+                        } else {
+                            res.status(200).send("File too large and images only");
+                        }
+                    });
+                } else {
+                    var userUpdates = {
+                        "picture": "../../../pictures/" + filename
+                    };
+                    // Delete old picture from the system and then update the user.
+                    UserModel
+                        .findUserById(userId)
+                        .then(
+                            function (user) {
+                                if (user.picture) {
+                                    // Get the user picture filename from the string
+                                    var oldfilename = user.picture.slice(18);
+                                    fs.unlink(destination + "/" + oldfilename, function (err) {
+                                        // An error just means the picture was not found.
+                                        return UserModel.updateUser(userId, userUpdates);
+                                    });
+                                } else {
+                                    return UserModel.updateUser(userId, userUpdates);
+                                }
+                            },
+                            function (err) {
+                                res.status(400).send(err);
+                            }
+                        )
+                        .then(
+                            function (status) {
+                                res.redirect('/#/profile');
+                            },
+                            function (err) {
+                                res.status(400).send(err);
+                            }
+                        );
+                }
+            }
+        });
 
     }
 

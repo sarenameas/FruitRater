@@ -12,6 +12,7 @@
                   action="/api/upload"
                   method="post"
                   enctype="multipart/form-data">
+                <input name="userId" value="{{model.currentUser._id}}" style="display: none"/>
                 <input type="file" name="picFile" class="form-group form-control" />
                 <button type="submit" class="btn btn-block form-group">Upload a Picture</button>
             </form>
