@@ -26,7 +26,6 @@ module.exports = function(app, UserModel) {
             .findUserByEmail(email)
             .then (
                 function (user) {
-                    console.log(user);
                     if (!user) {
                         return done(null, false);
                     } else {

@@ -124,13 +124,13 @@
                     getLoggedIn: getLoggedIn
                 }
             })
-            .when("/review/:groceryId/:fruit", {
+            .when("/review/edit/:id", {
                 templateUrl: "views/review/review.view.html",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }
             })
-            .when("/review/edit/:id", {
+            .when("/review/:groceryId/:fruit", {
                 templateUrl: "views/review/review.view.html",
                 resolve: {
                     getLoggedIn: getLoggedIn

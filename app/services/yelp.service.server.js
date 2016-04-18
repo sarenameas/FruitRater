@@ -116,7 +116,6 @@ module.exports = function(app) {
 
 
         /* Yelp API Services */
-        /* TODO: Move to own module file */
 
     function searchGroceryStores(req, res) {
 
@@ -127,7 +126,7 @@ module.exports = function(app) {
 
         function callback(error, response, body) {
             if (error) {
-                console.error(err);
+                console.error(error);
             }
 
             res.json(JSON.parse(body));
@@ -142,7 +141,7 @@ module.exports = function(app) {
 
         function callback(error, response, body) {
             if (error) {
-                console.error(err);
+                console.error(error);
             }
 
             res.json(JSON.parse(body));
