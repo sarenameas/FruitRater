@@ -2,9 +2,10 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var bcrypt = require("bcrypt-nodejs");
 var multer = require("multer");
+var fs = require("fs");
 
 module.exports = function(app, UserModel) {
-    var pictures = multer({ dest: __dirname + "../../public/pictures"});
+    var upload = multer({ dest: __dirname+'/../../public/pictures' });
 
     var auth = authorized;
     app.post("/api/login", passport.authenticate('local'), login);
@@ -18,6 +19,8 @@ module.exports = function(app, UserModel) {
     app.get("/api/user", auth, findUsers);
     app.delete("/api/user/:userId", auth, deleteUser);
     app.put("/api/user/:userId", auth, updateUser);
+
+    app.post("/api/upload", upload.single('picFile'), uploadImage);
 
     passport.use(new LocalStrategy(localStrategy));
     passport.serializeUser(serializeUser);
@@ -218,4 +221,57 @@ module.exports = function(app, UserModel) {
     function isAdmin(user) {
         return user.admin;
     }
+
+
+    function uploadImage(req, res) {
+
+        var picFile = req.file;
+
+        if (picFile) {
+            var destination   = picFile.destination;
+            var path          = picFile.path;
+            var originalname  = picFile.originalname;
+            var size          = picFile.size;
+            var mimetype      = picFile.mimetype;
+            var filename      = picFile.filename;
+        }
+
+
+        console.log(destination);
+        console.log(path);
+        console.log(originalname);
+        console.log(size);
+        console.log(mimetype);
+        console.log(filename);
+
+        // We must ccheck for a valid upload
+        if (!mimetype.includes("image") || size > 1000000) {
+            fs.unlink(path, function(err) {
+                if (err) {
+                    console.log(err);
+                    res.send(400).send(err);
+                } else {
+                    res.send(200);
+                }
+            });
+        } else {
+            fs.unlink(path, function(err) {
+                if (err) {
+                    console.log(err);
+                    res.send(400).send(err);
+                } else {
+                    res.send(200);
+                }
+
+                // TODO: Update the user with the path to the picture
+                /*
+                 UserModel
+                 .updateUser()
+                 */
+            });
+        }
+
+
+    }
+
 };

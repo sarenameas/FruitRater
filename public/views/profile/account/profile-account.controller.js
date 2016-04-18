@@ -17,7 +17,6 @@
 
         // Event Handlers
         vm.update = update;
-        vm.upload = upload;
 
 
         function update() {
@@ -44,13 +43,6 @@
                         }
                     );
             }
-        }
-
-
-        // TODO: How to upload a picture to the server...????
-        function upload() {
-            // Do something with vm.path
-            console.log(vm.path);
         }
 
 
