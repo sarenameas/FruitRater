@@ -129,7 +129,9 @@ module.exports = function(app) {
                 console.error(error);
             }
 
-            res.json(JSON.parse(body));
+            if (body !== "undefined") {
+                res.json(JSON.parse(body));
+            }
         }
 
         request_yelp_search(search_parameters, callback);
@@ -144,7 +146,9 @@ module.exports = function(app) {
                 console.error(error);
             }
 
-            res.json(JSON.parse(body));
+            if (body !== "undefined") {
+                res.json(JSON.parse(body));
+            }
         }
 
         request_yelp_business(search_parameters, callback);

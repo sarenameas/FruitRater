@@ -1,12 +1,20 @@
 <div ng-controller="GroceryController as model" class="container">
-    <h1>
+    <h1 ng-if="model.grocery">
         {{model.grocery.name.charAt(0).toUpperCase() + model.grocery.name.slice(1)}}&nbsp;
         - {{model.grocery.address}}
     </h1>
     <hr>
 
-    <div ng-hide="model.grocery">
+    <div ng-if="model.error === 1">
         Invalid Grocery Store.
+    </div>
+
+    <div ng-if="model.error === 2">
+        Error searching for grocery store, try refreshing...
+    </div>
+
+    <div ng-if="model.error === 3">
+        Currently searching Yelp for this store...
     </div>
 
     <div ng-show="model.fruits.length === 0 && model.grocery != null">
@@ -51,7 +59,7 @@
                        class="form-control" 
                        placeholder="Banana, Mangosteen, ...">
             </div>
-            <button ng-click="model.search()" type="submit" class="btn btn-default">Search Fruit</button>
+            <button ng-click="model.search(model.searchFruit)" type="submit" class="btn btn-default">Search Fruit</button>
         </form>
         </p>
         <br>

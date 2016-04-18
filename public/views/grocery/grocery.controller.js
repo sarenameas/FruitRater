@@ -16,7 +16,8 @@
         vm.currentUser = null;
         vm.unfollowVisible = false;
         vm.followVisisible = false;
-        
+        vm.error = 3; // 0 = no error, 1 = invalid grocery store, 2 = error on grocery search, 3 = searching groceries
+
         // Event Handlers
         vm.getFruitsForPage = getFruitsForPage;
         vm.search = search;
@@ -33,8 +34,16 @@
                 .findGroceryStoreById($routeParams.id)
                 .then(
                     function (grocery) {
-                        vm.grocery = grocery;
-                        return ReviewService .findAllReviewsForGroceryStore(vm.grocery._id);
+                        if (grocery) {
+                            vm.grocery = grocery;
+                            vm.error = 0;
+                            return ReviewService .findAllReviewsForGroceryStore(vm.grocery._id);
+                        } else {
+                            vm.error = 1;
+                        }
+                    },
+                    function (err) {
+                        vm.error = 2;
                     }
                 )
                 .then(
@@ -49,21 +58,26 @@
                                 }
                             }
                             vm.fruits.sort();
+                            getFruitsPages(vm.fruits);
 
-                            vm.fruitsPages = PagesService.splitItemsIntoPages(vm.fruits, 12);
-                            if ($routeParams.page) {
-                                vm.getFruitsForPage($routeParams.page);
-                            } else {
-                                vm.getFruitsForPage(1);
-                            }
                         }
                         getFollowingButtons();
                     }
                 );
         }
 
+        function getFruitsPages(fruits) {
+            // 12 is optimal for large displays, results with stack on cellphones.
+            vm.fruitsPages = PagesService.splitItemsIntoPages(fruits, 12);
+            if ($routeParams.page) {
+                vm.getFruitsForPage($routeParams.page);
+            } else {
+                vm.getFruitsForPage(1);
+            }
+        }
+
         function getFollowingButtons() {
-            if (vm.currentUser == null) {
+            if (vm.currentUser == null || vm.currentUser == "") {
                 vm.unfollowVisible = false;
                 vm.followVisible = false;
             }
@@ -83,9 +97,23 @@
             $location.path("/grocery/" + $routeParams.id + "/page=" + page.toString());
         }
 
+        // TODO: *** Put search in own page!!!! Grab search key from req.params.
 
-        function search() {
-            
+        function search(fruit) {
+            // This function is only shown when vm.fruit is populated.
+            var i;
+            var fruits = [];
+            if (fruit == null || fruit === "") {
+                fruits = vm.fruits;
+            } else {
+                for (i = 0; i < vm.fruits.length; i++) {
+                    if (vm.fruits[i].includes(fruit)) {
+                        fruits.push(vm.fruits[i]);
+                    }
+                }
+            }
+
+            getFruitsPages(fruits);
         }
 
         function deleteGrocery() {
