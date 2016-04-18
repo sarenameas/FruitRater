@@ -12,6 +12,7 @@
             setCurrentUser : setCurrentUser,
             login: login,
             register: register,
+            logout: logout,
             findUserById: findUserById,
             findUsersByUsername: findUsersByUsername,
             findAllUsers : findAllUsers,
@@ -33,12 +34,15 @@
         }
 
         function login(user) {
-            console.log(user);
             return $http.post("/api/login", user);
         }
 
         function register(user) {
             return $http.post("/api/register", user);
+        }
+
+        function logout() {
+            return $http.post("/api/logout");
         }
 
         function findUserById(userId) {

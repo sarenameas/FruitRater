@@ -18,12 +18,16 @@
         vm.logOut = logOut;
         vm.search = search;
 
-        // TODO: passport.js to handle credentials
-
         // Logs the user out using the UserService and sends the
         // client to the home page.
         function logOut() {
-            UserService.setCurrentUser(null);
+            UserService
+                .logout()
+                .then(
+                    function (response) {
+                        UserService.setCurrentUser(null);
+                    }
+                );
 
             // .url("...") takes us to the given "..."
             // .path("...") updates the path but doesn't take us there right away.
