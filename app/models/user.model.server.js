@@ -1,11 +1,6 @@
-/*
-
-If user doesn't exist reviews will still exist.
-
- */
-
 module.exports = function(db, mongoose) {
     var q = require("q");
+    var bcrypt = require("bcrypt-nodejs");
     var UserSchema = require("./user.schema.server.js")(mongoose);
     var UserModel = mongoose.model('User', UserSchema);
 
@@ -13,6 +8,7 @@ module.exports = function(db, mongoose) {
         findUserByCredentials : findUserByCredentials,
         findUserById: findUserById,
         findUsersByUsername: findUsersByUsername,
+        findUserByEmail: findUserByEmail,
         findAllUsers : findAllUsers,
         createUser : createUser,
         deleteUser : deleteUser,
@@ -22,6 +18,7 @@ module.exports = function(db, mongoose) {
     return api;
 
     /* Returns the user who's credentials match the username and password */
+    // TODO: Consider deleting this api routine.
     function findUserByCredentials(credentials) {
         return UserModel.findOne(
             {
@@ -51,38 +48,31 @@ module.exports = function(db, mongoose) {
         return UserModel.find();
     }
 
-    /* Creates a user in the system and returns status. */
+    /* Creates a user in the system and returns the user. */
     function createUser(user) {
         var deferred = q.defer();
 
-        // Defensive delete possible _id field
+        // Defensive delete possible _id field in user registration.
         delete user._id;
 
-        /* Need to check for an existing username */
-        return UserModel
-            .findOne({email: user.email})
+        // Need to one way encrypt password into database.
+        bcrypt
+            .hashAsync(user.password)
             .then(
-                function (result) {
-                    if (result) {
-                        deferred.reject("User for this email already exists");
-                    } else {
-                        return UserModel.create(user);
-                        /*
-                        UserModel.create(user, function (err, doc) {
-                            if (err) {
-                                deferred.reject(err);
-                            } else {
-                                deferred.resolve(doc);
-                            }
-                        });*/
-                    }
+                function(hash) {
+                    user.password = hash;
+                    return UserModel.create(user);
                 },
-                function (err) {
+                function(err) {
                     deferred.reject(err);
                 }
             );
 
         return deferred.promise
+    }
+
+    function findUserByEmail(email) {
+        return UserModel.findOne({email: email});
     }
 
     /* Deletes a user in the system and returns the status of the delete. */
@@ -99,10 +89,25 @@ module.exports = function(db, mongoose) {
         if (user.location) {
             user.location = user.location.toLowerCase();
         }
-        return UserModel.update(
-            {_id: userId},
-            {$set: user}
-        );
+
+        if (user.password) {
+            bcrypt
+                .hashAsync(user.password)
+                .then (
+                    function (hash) {
+                        user.password = hash;
+                        return UserModel.update(
+                            {_id: userId},
+                            {$set: user}
+                        );
+                    }
+                )
+        } else {
+            return UserModel.update(
+                {_id: userId},
+                {$set: user}
+            );
+        }
     }
 
 };

@@ -1,23 +1,111 @@
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var bcrypt = require("bcrypt-nodejs");
+
 module.exports = function(app, UserModel) {
-    app.post("/api/login", login);
+    var auth = authorized;
+    app.post("/api/login", passport.authenticate('local'), login);
     app.post("/api/logout", logout);
     app.get("/api/loggedin", loggedin);
     app.post("/api/register", register);
 
-    app.post("/api/user", createUser);
-    app.get("/api/user/:userId", findUserById);
-    app.get("/api/user?username=username", findUsers);
-    app.get("/api/user", findUsers);
-    app.delete("/api/user/:userId", deleteUser);
-    app.put("/api/user/:userId", updateUser);
+    app.post("/api/user", auth, createUser);
+    app.get("/api/user/:userId", auth, findUserById);
+    app.get("/api/user?username=username", auth, findUsers);
+    app.get("/api/user", auth, findUsers);
+    app.delete("/api/user/:userId", auth, deleteUser);
+    app.put("/api/user/:userId", auth, updateUser);
 
-    // TODO: Session user login stuff.
-    function login(req, res) {
+    passport.use(new LocalStrategy(localStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+    function localStrategy(email, password, done) {
         UserModel
-            .findUserByCredentials(req.body)
+            .findUserByEmail(email)
+            .then (
+                function (user) {
+                    if (!user) {
+                        return done(null, false);
+                    } else if(bcrypt.compareSync(password, user.password)) {
+                        return done(null, user);
+                    } else {
+                        return done(null, false);
+                    }
+                },
+                function (err) {
+                    if (err) {
+                        return done(err, null);
+                    }
+                }
+            );
+    }
+
+    // Tell passport which object to serialize
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    // Retrieve the user object from the system.
+    function deserializeUser(user, done) {
+        UserModel
+            .findUserById(user._id)
             .then(
                 function (user) {
-                    res.json(user);
+                    done(null, user);
+                },
+                function (err) {
+                    done(err, null);
+                }
+            );
+    }
+
+    function authorized(req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }
+    }
+
+    function login(req, res) {
+        var user = req.user;
+        user.password = null;
+        res.json(user);
+    }
+
+
+    function register(req, res) {
+        var newUser = req.body;
+        // Thwart attempts to make a hacker into an admin
+        newUser.admin = false;
+
+        // Find if this email exists and if it does don't login.
+        UserModel
+            .findUserByEmail(newUser.email)
+            .then(
+                function (user) {
+                    if (user) {
+                        res.json(null);
+                    } else {
+                        return createUser(newUser);
+                    }
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (user) {
+                    if (user) {
+                        req.login(user, function(err) {
+                            if (err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.json(user);
+                            }
+                        });
+                    }
                 },
                 function (err) {
                     res.status(400).send(err);
@@ -25,22 +113,15 @@ module.exports = function(app, UserModel) {
             );
     }
 
-    // TODO: Session user register stuff
-    function register(req, res) {
-        return createUser(req, res)
+    function logout(req, res) {
+        req.logOut();
+        res.send(200);
     }
 
-    //TODO: Passport and session stuff for logging out
-    function logout() {
-
+    function loggedin(req, res) {
+        res.send(req.isAuthenticated() ? req.user : '0');
     }
 
-    // TODO: Passport and session request stuff for checking loggedin
-    function loggedin() {
-
-    }
-
-    // TODO: This will be deleted and go in the register function.
     function createUser(req, res) {
         var newUser = req.body;
         UserModel
@@ -124,5 +205,10 @@ module.exports = function(app, UserModel) {
                     res.status(400).send(err);
                 }
             );
+    }
+
+    // Returns true if the user is an admin, returns false otherwise.
+    function isAdmin(user) {
+        return user.admin;
     }
 };
