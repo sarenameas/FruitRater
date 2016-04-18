@@ -97,6 +97,14 @@
                     getLoggedIn: getLoggedIn
                 }
             })
+            .when("/grocery/:id/search=:search/page=:page", {
+                templateUrl: "views/grocery/grocery.view.html",
+                controller: "GroceryController",
+                controllerAs: "model",
+                resolve: {
+                    getLoggedIn: getLoggedIn
+                }
+            })
             .when("/grocery/:id/:fruit", {
                 templateUrl: "views/fruit/fruit.view.html",
                 controller: "FruitController",

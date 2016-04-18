@@ -1,3 +1,5 @@
+// TODO: Minimize the number of requests to the database and to Yelp
+
 (function () {
     angular
         .module("FruitRaterApp")
@@ -58,7 +60,12 @@
                                 }
                             }
                             vm.fruits.sort();
-                            getFruitsPages(vm.fruits);
+                            if ($routeParams.search) {
+                                vm.searchFruit = $routeParams.search;
+                                search($routeParams.search);
+                            } else {
+                                getFruitsPages(vm.fruits);
+                            }
 
                         }
                         getFollowingButtons();
@@ -94,15 +101,19 @@
         
         function getFruitsForPage(page) {
             vm.fruitsPage = vm.fruitsPages[page-1];
-            $location.path("/grocery/" + $routeParams.id + "/page=" + page.toString());
-        }
+            if ($routeParams.search) {
+                $location.path("/grocery/" + $routeParams.id + "/search=" + vm.searchFruit + "/page=" + page.toString());
+            } else {
+                $location.path("/grocery/" + $routeParams.id + "/page=" + page.toString());
+            }
 
-        // TODO: *** Put search in own page!!!! Grab search key from req.params.
+        }
 
         function search(fruit) {
             // This function is only shown when vm.fruit is populated.
             var i;
             var fruits = [];
+            fruit = fruit.toLowerCase();
             if (fruit == null || fruit === "") {
                 fruits = vm.fruits;
             } else {
