@@ -50,7 +50,7 @@ module.exports = function(db, mongoose) {
     function findAllReviewsForUser(userId) {
         return ReviewModel.find(
             {userId: userId}
-        )
+        ).sort({date: -1});
     }
 
     /* Returns all the reviews the given groceryID */
