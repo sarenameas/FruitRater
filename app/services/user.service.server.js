@@ -264,7 +264,7 @@ module.exports = function(app, UserModel) {
                     });
                 } else {
                     var userUpdates = {
-                        "picture": "../../../pictures/" + filename
+                        "picture": "/pictures/" + filename
                     };
                     // Delete old picture from the system and then update the user.
                     UserModel
@@ -273,9 +273,12 @@ module.exports = function(app, UserModel) {
                             function (user) {
                                 if (user.picture) {
                                     // Get the user picture filename from the string
-                                    var oldfilename = user.picture.slice(18);
+                                    var oldfilename = user.picture.slice(10);
                                     fs.unlink(destination + "/" + oldfilename, function (err) {
                                         // An error just means the picture was not found.
+                                        if (err) {
+                                            console.log(err);
+                                        }
                                         return UserModel.updateUser(userId, userUpdates);
                                     });
                                 } else {
