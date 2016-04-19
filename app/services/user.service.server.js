@@ -247,8 +247,6 @@ module.exports = function(app, UserModel) {
                 var picFile = req.file;
                 var userId = req.body.userId;
 
-                console.log(picFile);
-
                 if (picFile) {
                     var destination   = picFile.destination;
                     var path          = picFile.path;
