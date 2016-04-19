@@ -157,6 +157,8 @@
                 var review = {
                     "fruit": vm.fruit.toLowerCase(),
                     "groceryId": vm.grocery._id,
+                    "groceryName": vm.grocery.name,
+                    "groceryAddress": vm.grocery.address,
                     "userId": vm.currentUser._id,
                     "rating": totalRating(),
                     "date": new Date(),

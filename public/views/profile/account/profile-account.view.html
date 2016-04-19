@@ -6,9 +6,9 @@
             <div style="color:red">Profile updated.</div>
         </div>
 
-        <div class="col-sm-4 center-align">
-            <img id="img-profile" ng-src="{{model.currentUser.picture}}"><br>
-            <form class="form-group"
+        <div class="col-sm-4 text-center">
+            <img class="form-group" id="img-profile" ng-src="{{model.currentUser.picture}}"><br>
+            <form class="form-group center-align"
                   action="/api/upload"
                   method="post"
                   enctype="multipart/form-data">

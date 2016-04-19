@@ -76,6 +76,8 @@
             })
             .when("/user/:id/reviews/:page", {
                 templateUrl: "views/user/user_reviews/user-reviews.view.html",
+                controller: "UserReviewsController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }

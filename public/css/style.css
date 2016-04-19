@@ -92,19 +92,22 @@
 
 /* To size the image in the profile pictures page */
 #img-profile {
-    width: 20vw;
+    width: 25vh;
 }
 
 /* To size the image in the reviews */
 #img-review  {
-    width: 5vw;
+    width: 10vh;
 }
+
+
 
 /* Style for fruit-review directive */
 #fruit-review {
     border-style: solid;
     border-color: black;
     border-width: 1px;
+    padding: 5px;
 }
 
 /* Custom style for fruits listed on grocery page */

@@ -1,14 +1,14 @@
 <!-- TODO: Need to refactor profile reviews and user reviews into one directive because they are the same. -->
 <div class="container">
-    <div ng-controller="UserReviewsController as vm">
-        <h1>{{vm.user.username}}'s Reviews</h1>
+    <div ng-controller="UserReviewsController as model">
+        <h1>{{model.user.username}}'s Reviews</h1>
         <br>
 
-        <nav class="right-align" ng-show="vm.allReviews.length > 0">
+        <nav class="right-align" ng-show="model.allReviews.length > 0">
             Page:&nbsp;
-            <span ng-repeat="page in vm.reviewPages">
-                <a ng-class="{'disabled': vm.$location.url() === '/user/{{vm.user._id}}/reviews/{{$index+1}}'}"
-                   ng-click="vm.getReviewsForPage($index+1)">
+            <span ng-repeat="page in model.reviewPages">
+                <a ng-class="{'disabled': model.$location.url() === '/user/{{model.user._id}}/reviews/{{$index+1}}'}"
+                   ng-click="model.getReviewsForPage($index+1)">
                     {{$index+1}}&nbsp;
                 </a>
             </span>
@@ -16,19 +16,16 @@
         <br>
 
 
-        <!-- TODO: Create seperate pages for every 10 reviews in order by date -->
-        <div ng-repeat="review in vm.reviews">
+        <div ng-repeat="review in model.reviews">
             <!-- The link to the fruit page of that grocery store -->
-            <!-- TODO: Turn this grocery store fruit link into a directive because it is repeated ... -->
-            <!-- FIXME: problem with using async function like thi... -->
             <a ng-href="#/grocery/{{review.groceryId}}/{{review.fruit}}">
-                {{(vm.getGroceryStoreName(review.groceryId))}} -
-                {{(vm.getGroceryStoreAddress(review.groceryId))}} -
+                {{review.groceryName}} -
+                {{review.groceryAddress}} -
                 {{(review.fruit).charAt(0).toUpperCase() + review.fruit.slice(1)}}
             </a>
             <!-- The actual review is a specific looking object so perhaps it is a directive -->
-            <!--<fruit-review review="review" user="vm.currentUser" edit-review="vm.editReview(reviewId)" delete-review="vm.deleteReview(reviewId)"></fruit-review>-->
-            <fruit-review review="review" delete-update="vm.updateReviewPages()"></fruit-review>
+            <!--<fruit-review review="review" user="model.currentUser" edit-review="model.editReview(reviewId)" delete-review="model.deleteReview(reviewId)"></fruit-review>-->
+            <fruit-review review="review" delete-update="model.updateReviewPages()"></fruit-review>
         </div>
     </div>
 </div>

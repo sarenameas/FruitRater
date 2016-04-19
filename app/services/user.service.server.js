@@ -29,8 +29,8 @@ module.exports = function(app, UserModel) {
     app.post("/api/register", register);
 
     app.post("/api/user", auth, createUser);
-    app.get("/api/user/:userId", auth, findUserById);
-    app.get("/api/user?username=username", auth, findUsers);
+    app.get("/api/user/:userId", findUserById);
+    app.get("/api/user?username=username", findUsers);
     app.get("/api/user", auth, findUsers);
     app.delete("/api/user/:userId", auth, deleteUser);
     app.put("/api/user/:userId", auth, updateUser);
@@ -190,16 +190,20 @@ module.exports = function(app, UserModel) {
                 );
         }
         else {
-            UserModel
-                .findAllUsers()
-                .then(
-                    function (users) {
-                        res.json(users);
-                    },
-                    function (err) {
-                        res.status(400).send(err);
-                    }
-                );
+            if( isAdmin(req.user)) {
+                UserModel
+                    .findAllUsers()
+                    .then(
+                        function (users) {
+                            res.json(users);
+                        },
+                        function (err) {
+                            res.status(400).send(err);
+                        }
+                    );
+            } else {
+                res.status(400).send("Unauthorized");
+            }
         }
     }
 
@@ -242,11 +246,14 @@ module.exports = function(app, UserModel) {
 
         upload(req, res, function (err) {
             if (err) {
+                // Error uploading file.
                 res.status(400).send("Image file size limit is 100kB. Please try again")
             } else {
+                // No error so check if we have a file to uploaded
                 var picFile = req.file;
                 var userId = req.body.userId;
 
+                // If a file was uploaded
                 if (picFile) {
                     var destination   = picFile.destination;
                     var path          = picFile.path;
@@ -254,53 +261,58 @@ module.exports = function(app, UserModel) {
                     var size          = picFile.size;
                     var mimetype      = picFile.mimetype;
                     var filename      = picFile.filename;
+
+                    // We must check for a valid upload, else delete from our system!
+                    if (!mimetype.includes("image") || size > 100000) {
+                        fs.unlink(path, function (err) {
+                            if (err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.status(200).send("File too large and images only");
+                            }
+                        });
+                    } else {
+                        var userUpdates = {
+                            "picture": "/pictures/" + filename
+                        };
+                        // Delete old picture from the system and then update the user.
+                        UserModel
+                            .findUserById(userId)
+                            .then(
+                                function (user) {
+                                    if (user.picture) {
+                                        // Get the user picture filename from the string
+                                        var oldfilename = user.picture.slice(10);
+                                        fs.unlink(destination + "/" + oldfilename, function (err) {
+                                            // An error just means the picture was not found.
+                                            if (err) {
+                                                console.log(err);
+                                            }
+                                            return UserModel.updateUser(userId, userUpdates);
+                                        });
+                                    } else {
+                                        return UserModel.updateUser(userId, userUpdates);
+                                    }
+                                },
+                                function (err) {
+                                    res.status(400).send(err);
+                                }
+                            )
+                            .then(
+                                function (status) {
+                                    res.redirect('/#/profile');
+                                },
+                                function (err) {
+                                    res.status(400).send(err);
+                                }
+                            );
+                    }
+                } else {
+                    // Else no file was specifed
+                    res.redirect('/#/profile');
                 }
 
-                // We must check for a valid upload, else delete from our system!
-                if (!mimetype.includes("image") || size > 100000) {
-                    fs.unlink(path, function (err) {
-                        if (err) {
-                            res.status(400).send(err);
-                        } else {
-                            res.status(200).send("File too large and images only");
-                        }
-                    });
-                } else {
-                    var userUpdates = {
-                        "picture": "/pictures/" + filename
-                    };
-                    // Delete old picture from the system and then update the user.
-                    UserModel
-                        .findUserById(userId)
-                        .then(
-                            function (user) {
-                                if (user.picture) {
-                                    // Get the user picture filename from the string
-                                    var oldfilename = user.picture.slice(10);
-                                    fs.unlink(destination + "/" + oldfilename, function (err) {
-                                        // An error just means the picture was not found.
-                                        if (err) {
-                                            console.log(err);
-                                        }
-                                        return UserModel.updateUser(userId, userUpdates);
-                                    });
-                                } else {
-                                    return UserModel.updateUser(userId, userUpdates);
-                                }
-                            },
-                            function (err) {
-                                res.status(400).send(err);
-                            }
-                        )
-                        .then(
-                            function (status) {
-                                res.redirect('/#/profile');
-                            },
-                            function (err) {
-                                res.status(400).send(err);
-                            }
-                        );
-                }
+
             }
         });
 

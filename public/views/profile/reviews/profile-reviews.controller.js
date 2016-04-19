@@ -11,8 +11,6 @@
         // Event Handlers
         vm.updateReviewPages = updateReviewPages;
         vm.getReviewsForPage = getReviewsForPage;
-        vm.getGroceryStoreName = getGroceryStoreName;
-        vm.getGroceryStoreAddress = getGroceryStoreAddress;
 
         // Global variables
         vm.$location = $location;
@@ -61,35 +59,6 @@
             vm.reviews = vm.reviewPages[page-1];
             // Update the path to reflect the page change.
             $location.path("/profile/myreviews/"+ page.toString());
-        }
-
-        function getGroceryStoreName(groceryId) {
-            /*
-            // FIXME: Problem with ng-repeat and getting grocery store names
-            GroceryService
-                .findGroceryStoreById(groceryId)
-                .then(
-                    function (groceryStore) {
-                        var name = groceryStore.name;
-                        name = name.charAt(0).toUpperCase() + name.slice(1);
-                        return name;
-                    }
-                )
-                */
-        }
-
-        function getGroceryStoreAddress(groceryId) {
-            /*
-            // FIXME: problem with ng-repeat and asynch function
-            GroceryService
-                .findGroceryStoreById(groceryId)
-                .then(
-                    function (groceryStore) {
-                        var address = groceryStore.address;
-                        return address;
-                    }
-                )
-                */
         }
 
 
