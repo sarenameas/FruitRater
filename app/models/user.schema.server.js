@@ -7,7 +7,6 @@ module.exports = function(mongoose) {
             "password": String,
             "joinedDate": {type: Date, default: Date.now()},
             "admin": {type: Boolean, default: false},
-            // TODO: Figure out how to upload pictures
             "picture": String,
             "usersFollowing": [String],
             "groceryStoresFollowing": [String],

@@ -67,7 +67,7 @@ module.exports = function(db, mongoose) {
                 fruit: fruit,
                 groceryId: groceryId
             }
-        )
+        ).sort({date: -1});
     }
 
     /* Returns the review from the given reviewId */
