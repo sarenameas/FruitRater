@@ -67,6 +67,7 @@
             if (vm.currentUser != null) {
                 if (vm.currentUser.usersFollowing.indexOf(userId) === -1) {
                     vm.currentUser.usersFollowing.push(userId);
+                    delete vm.currentUser.password;
                     UserService
                         .updateUser(vm.currentUser._id, vm.currentUser)
                         .then(
@@ -87,6 +88,7 @@
                 var index = vm.currentUser.usersFollowing.indexOf(userId);
                 if (index > -1) {
                     vm.currentUser.usersFollowing.splice(index, 1);
+                    delete vm.currentUser.password;
                     UserService
                         .updateUser(vm.currentUser._id, vm.currentUser)
                         .then(

@@ -147,8 +147,11 @@
             if (vm.currentUser != null) {
                 if (vm.currentUser.groceryStoresFollowing.indexOf(groceryId) === -1) {
                     vm.currentUser.groceryStoresFollowing.push(groceryId);
+                    var userUpdates = {
+                        "groceryStoresFollowing": vm.currentUser.groceryStoresFollowing
+                    };
                     UserService
-                        .updateUser(vm.currentUser._id, vm.currentUser)
+                        .updateUser(vm.currentUser._id, userUpdates)
                         .then(
                             function (response) {
                                 vm.unfollowVisible = true;

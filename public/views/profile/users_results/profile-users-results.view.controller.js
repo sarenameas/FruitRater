@@ -62,6 +62,7 @@
             // If we are not currently following this user then add them to the list.
             if (index == -1) {
                 vm.currentUser.usersFollowing.push(userId);
+                delete vm.currentUser.password;
                 UserService
                     .updateUser(vm.currentUser._id, vm.currentUser)
                     .then(

@@ -66,6 +66,7 @@
         function unfollow(groceryId) {
             var index = vm.currentUser.groceryStoresFollowing.indexOf(groceryId);
             vm.currentUser.groceryStoresFollowing.splice(index, 1);
+            delete vm.currentUser.password;
             UserService
                 .updateUser(vm.currentUser._id, vm.currentUser)
                 .then(

@@ -62,6 +62,7 @@
         function unfollow(userId) {
            var index = vm.currentUser.usersFollowing.indexOf(userId);
             vm.currentUser.usersFollowing.splice(index, 1);
+            delete vm.currentUser.password;
             UserService
                 .updateUser(vm.currentUser._id, vm.currentUser)
                 .then(
