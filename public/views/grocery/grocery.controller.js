@@ -1,5 +1,3 @@
-// TODO: Minimize the number of requests to the database and to Yelp
-
 (function () {
     angular
         .module("FruitRaterApp")

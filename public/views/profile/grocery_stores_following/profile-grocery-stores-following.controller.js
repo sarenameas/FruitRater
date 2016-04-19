@@ -45,7 +45,9 @@
                         function (groceryStore) {
                             vm.allGroceryStoresFollowing.push( groceryStore );
 
-                            // FIXME: Need to get a all grocery stores from service for a user to render properly.
+                            // FIXME: Need to get a all grocery stores from service fully for a user to render properly.
+                            // TODO: Also sort grocery stores
+                            // TODO: Split grocery stores in array into pages for less yelp searches
                             vm.groceryStoresPages = PagesService.splitItemsIntoPages(vm.allGroceryStoresFollowing,5);
                             vm.getGroceryStoresForPage($routeParams.page);
 

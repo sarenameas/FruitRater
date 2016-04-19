@@ -43,6 +43,7 @@
                     .then(
                         function (response) {
                             if (response.data) {
+                                // TODO: Need use promoise to get users then render the page.
                                 vm.allUsersFollowing.push(response.data);
                                 vm.userPages = PagesService.splitItemsIntoPages(vm.allUsersFollowing,5);
                                 vm.getUsersForPage($routeParams.page);

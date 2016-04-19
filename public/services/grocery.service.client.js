@@ -142,7 +142,7 @@
 
 
         function deleteGroceryStore(groceryId) {
-           //TODO: Delete all grocery store reviews
+            
         }
     }
 })();

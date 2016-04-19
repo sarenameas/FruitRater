@@ -87,6 +87,7 @@
         }
 
         /* Deletes the fruit from the system */
+        // FIXME: This has a bug
         function deleteFruit() {
             ReviewService
                 .deleteFruitReviews(vm.fruit, vm.grocery._id)

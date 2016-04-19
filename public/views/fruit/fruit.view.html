@@ -48,7 +48,7 @@
             <a href="#/review/{{model.grocery._id}}/{{model.fruit}}">Write a Review</a>
         </p>
 
-        <button ng-show="model.currentUser.admin" ng-click="model.deleteFruit()" class="float-right btn btn-default">Delete this fruit</button>
+        <button ng-if="model.currentUser.admin" ng-click="model.deleteFruit()" class="float-right btn btn-default">Delete this fruit</button>
 
 
 
