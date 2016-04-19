@@ -90,13 +90,13 @@ module.exports = function(db, mongoose) {
     }
 
     /* Updates the user in the system and returns the status of the update. */
+    /* user passed in has the field that should be updated */
     function updateUser(userId, user) {
 
         var deferred = q.defer();
-
         // MongoDB 2.4 cannot handle the _id field in the input object.
         delete user._id;
-
+        
         // Need to one way encrypt password into database.
         if (user.password) {
             bcrypt.hash(user.password, null, null, function (err, hash) {

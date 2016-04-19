@@ -52,8 +52,6 @@ module.exports = function(app, UserModel) {
                     } else {
                         bcrypt.compare(password, user.password, function (err, res) {
                             if (res) {
-                                delete user.password;
-                                console.log(user.password);
                                 return done(null, user);
                             } else {
                                 return done(null, false);
@@ -71,7 +69,6 @@ module.exports = function(app, UserModel) {
 
     // Tell passport which object to serialize
     function serializeUser(user, done) {
-        delete user.password;
         done(null, user);
     }
 
@@ -81,7 +78,6 @@ module.exports = function(app, UserModel) {
             .findUserById(user._id)
             .then(
                 function (user) {
-                    delete user.password;
                     done(null, user);
                 },
                 function (err) {
@@ -100,8 +96,6 @@ module.exports = function(app, UserModel) {
 
     function login(req, res) {
         var user = req.user;
-        delete user.password;
-        delete req.user.password;
         res.json(user);
     }
 
@@ -149,11 +143,6 @@ module.exports = function(app, UserModel) {
     }
 
     function loggedin(req, res) {
-        if (req.user) {
-            delete req.user.password;
-        }
-
-
         res.send(req.isAuthenticated() ? req.user : null);
     }
 
