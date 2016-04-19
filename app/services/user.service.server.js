@@ -5,14 +5,21 @@ var multer = require("multer");
 var fs = require("fs");
 
 module.exports = function(app, UserModel) {
+    var destination = __dirname+'/../../public/pictures';
+    if (process.env.OPENSHIFT_DATA_DIR) {
+        destination = process.env.OPENSHIFT_DATA_DIR;
+    }
+
     var uploadMulter = multer({
-        dest: __dirname+'/../../public/pictures',
+        dest: destination,
         limits: {
             files: 1,
             fileSize: 100000
         }
     });
     var upload = uploadMulter.single('picFile');
+
+
 
     var auth = authorized;
 
