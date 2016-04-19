@@ -44,6 +44,10 @@
                                 vm.unfollowVisible = false;
                                 vm.followVisible = false;
                             }
+                            else if (vm.currentUser._id === vm.user._id) {
+                                vm.unfollowVisible = false;
+                                vm.followVisible = false;
+                            }
                             else if (vm.currentUser.usersFollowing.indexOf(vm.user._id) > -1) {
                                 vm.unfollowVisible = true;
                                 vm.followVisible = false;
