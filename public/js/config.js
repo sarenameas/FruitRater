@@ -33,12 +33,15 @@
             .when("/profile/account", {
                 templateUrl: "views/profile/account/profile-account.view.html",
                 controller: "ProfileAccountController",
+                controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }
             })
             .when("/profile/myreviews/:page", {
                 templateUrl: "views/profile/reviews/profile-reviews.view.html",
+                controller: "ProfileReviewsController",
+                controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }
@@ -70,6 +73,8 @@
             // We can look at other users without being logged in.
             .when("/user/:id", {
                 templateUrl: "views/user/user_profile/user-profile.view.html",
+                controller: "UserProfileController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }

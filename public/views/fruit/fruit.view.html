@@ -1,6 +1,19 @@
 <div ng-controller="FruitController as model" class="container">
 
-    <div ng-show="model.reviews.length === 0">
+
+    <div ng-if="model.status === 1">
+        Invalid grocery store.
+    </div>
+
+    <div ng-if="model.status === 2">
+        Currently searching Yelp for this grocery store...
+    </div>
+
+    <div ng-if="model.status === 3">
+        Invalid fruit
+    </div>
+
+    <div ng-show="model.reviews.length === 0 && model.status === 0">
         <h1>
             {{model.fruit.charAt(0).toUpperCase() + model.fruit.slice(1)}}
         </h1>

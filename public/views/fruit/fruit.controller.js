@@ -16,6 +16,7 @@
         vm.reviewsPage = [];
         vm.reviewsPages = [];
         vm.currentUser = null;
+        vm.status = 0; // 0 = normal, 1 = invalid grocery store, 2 = currently searching, 3 = invalid fruit
 
 
         // Event handler
@@ -30,18 +31,26 @@
 
         function init() {
             vm.fruit = $routeParams.fruit;
+            vm.status = 2;
             GroceryService
                 .findGroceryStoreById($routeParams.id)
                 .then(
                     function (groceryStore) {
-                        vm.grocery = groceryStore;
-                        return ReviewService.getAverageRatingOfFruitAtGroceryStore(vm.fruit, vm.grocery._id);
+                        if (groceryStore) {
+                            vm.grocery = groceryStore;
+                            vm.status = 0;
+                            return ReviewService.getAverageRatingOfFruitAtGroceryStore(vm.fruit, vm.grocery._id);
+                        } else {
+                            vm.status = 1;
+                        }
                     }
                 )
                 .then(
                     function (response) {
-                        vm.averageRating = response;
-                        updateReviewPages();
+                        if (response) {
+                            vm.averageRating = response;
+                            updateReviewPages();
+                        }
                     }
                 );
 
