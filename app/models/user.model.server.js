@@ -34,11 +34,10 @@ module.exports = function(db, mongoose) {
     }
 
     /* Returns an array of users with the similar usernames */
-    // TODO: Use regex to find multiple users
     function findUsersByUsername(username) {
         return UserModel.find(
             {
-                username: username
+                username: { $regex: username }
             }
         )
     }
