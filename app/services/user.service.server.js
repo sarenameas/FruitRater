@@ -241,7 +241,6 @@ module.exports = function(app, UserModel) {
                 var userId = req.body.userId;
 
                 console.log(picFile);
-                console.log(userId);
 
                 if (picFile) {
                     var destination   = picFile.destination;
@@ -256,7 +255,6 @@ module.exports = function(app, UserModel) {
                 if (!mimetype.includes("image") || size > 100000) {
                     fs.unlink(path, function (err) {
                         if (err) {
-                            console.log(err);
                             res.status(400).send(err);
                         } else {
                             res.status(200).send("File too large and images only");

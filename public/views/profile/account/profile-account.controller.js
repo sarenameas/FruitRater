@@ -18,6 +18,7 @@
         // Event Handlers
         vm.update = update;
 
+        alert(process.env.OPENSHIFT_DATA_DIR);
 
         function update() {
             var updateOk = true;
