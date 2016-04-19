@@ -1,46 +1,48 @@
 <div id="fruit-review">
     <div class="container-fluid">
         <!-- Profile picture on the left -->
-        <div class="col-sm-4">
-            <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
-        </div>
-
-        <!-- Stars floating -->
-        <div class="col-sm-8 right-align">
-            {{review.date | date : format : shortDate}}
-            <span ng-repeat="i in rangeArray(review.rating) track by $index">
-                <span>&#x2605;</span>
-            </span>
-            <span ng-repeat="i in rangeArray(5 - review.rating) track by $index">
-                <span>&#x2606;</span>
-            </span>
-        </div>
 
     </div>
     <div class="container-fluid">
-        <!-- Profile picture on the left -->
-        <div class="col-sm-2">
-            <a ng-href="#/user/{{user._id}}">
-                <img id="img-review" ng-src="{{user.picture}}">
-            </a>
+        <div>
+            <!-- Profile picture on the left -->
+            <div class="col-xs-2 text-center">
+                <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
+                <br style="margin: 10px">
+                <a ng-href="#/user/{{user._id}}">
+                    <img id="img-review" ng-src="{{user.picture}}">
+                </a>
+            </div>
+            <!-- Review paragraph -->
+            <div class="col-xs-10">
+                <!-- Stars floating -->
+                <div class="text-right">
+                    {{review.date | date : format : shortDate}}
+                <span ng-repeat="i in rangeArray(review.rating) track by $index">
+                    <span>&#x2605;</span>
+                </span>
+                <span ng-repeat="i in rangeArray(5 - review.rating) track by $index">
+                    <span>&#x2606;</span>
+                </span>
+                </div>
+                <p>{{review.text}}</p>
+            </div>
         </div>
-        <!-- Review paragraph -->
-        <div class="col-sm-10">
-            <p>{{review.text}}</p>
-        </div>
-
         <!-- Edit and delete glyphs -->
-        <div class="float-right">
-            <span ng-show="user._id === currentUser._id">
-                <a ng-click="editReview(review._id)">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a>
-            </span>
-            <span ng-show="user._id === currentUser._id || currrentUser.admin">
-                <a ng-click="deleteReview(review._id)">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </a>
-            </span>
+        <div>
+            <div class="col-xs-12 text-right">
+                <span ng-show="user._id === currentUser._id">
+                    <a ng-click="editReview(review._id)">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </span>
+                <span ng-show="user._id === currentUser._id || currrentUser.admin">
+                    <a ng-click="deleteReview(review._id)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </span>
+            </div>
         </div>
     </div>
+
 </div>
