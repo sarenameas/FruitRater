@@ -146,6 +146,7 @@ module.exports = function(app) {
                 console.error(error);
             }
 
+            console.log(body);
             if (body !== "undefined") {
                 res.json(JSON.parse(body));
             }

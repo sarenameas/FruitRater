@@ -2,7 +2,11 @@
     <h1>Review</h1>
     <hr>
 
-    <div ng-if="!model.grocery">
+    <div ng-if="model.status == 2">
+        Currently searching Yelp for this grocery store...
+    </div>
+
+    <div ng-if="model.status == 1">
         Invalid Grocery Store.
     </div>
 

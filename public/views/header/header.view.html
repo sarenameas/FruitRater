@@ -3,7 +3,7 @@
      - Need to create a bottom border
      - Need to create some type of colored background
  -->
-<nav ng-controller="HeaderController as header" class="navbar navbar-default" role="search">
+<nav ng-controller="HeaderController as model" class="navbar navbar-default" role="search">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -28,18 +28,18 @@
             <form class="navbar-form navbar-left">
                 <div class="form-group">
                     <label class="control-label">Fruit: </label>
-                    <input ng-model="header.fruit" type="text" class="form-control" placeholder="Strawberry, Avacado, ...">
+                    <input ng-model="model.fruit" type="text" class="form-control" placeholder="Strawberry, Avacado, ...">
                 </div>
                 <div class="form-group">
                    <label class="control-label">Grocery Store: </label> 
-                   <input ng-model="header.grocery" type="text" class="form-control" placeholder="Walmart, Safeway, ...">
+                   <input ng-model="model.grocery" type="text" class="form-control" placeholder="Walmart, Safeway, ...">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Location: </label>
-                    <input ng-model="header.location" type="text" class="form-control" placeholder="Zipcode, City, or State">
+                    <input ng-model="model.location" type="text" class="form-control" placeholder="Zipcode, City, or State">
                 </div>
                 <div class="form-group">
-                    <button ng-click="header.search(header.fruit, header.grocery, header.location)" type="submit" class="btn btn-default">Search</button>
+                    <button ng-click="model.search(model.fruit, model.grocery, model.location)" type="submit" class="btn btn-default">Search</button>
                 </div>
             </form>
 
@@ -70,7 +70,7 @@
                             <a href="#/profile">Profile</a>
                         </li>
                         <li class="center-align">
-                            <a ng-click="header.logOut()">Log Out</a>
+                            <a ng-click="model.logOut()">Log Out</a>
                         </li>
                     </ul>
                 </li>

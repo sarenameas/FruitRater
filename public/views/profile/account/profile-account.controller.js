@@ -22,13 +22,18 @@
             var updateOk = true;
 
             // If the two passwords match then update otherwise indicated error
-            if ( vm.password !== vm.verify ) {
+            if ( vm.password != "" &&
+                 vm.password != null &&
+                 vm.verify != "" &&
+                 vm.verify != null &&
+                 vm.password !== vm.verify) {
 
                 vm.passwordError = true;
                 return;
             }
             else
             {
+                vm.passwordError = false;
                 if (vm.password != "" && vm.password != null) {
                     vm.currentUser.password = vm.password;
                 } else {

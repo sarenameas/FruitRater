@@ -13,10 +13,10 @@
         vm.grocery = "";
         vm.location = "";
 
-
         // Event Handlers
         vm.logOut = logOut;
         vm.search = search;
+
 
         // Logs the user out using the UserService and sends the
         // client to the home page.

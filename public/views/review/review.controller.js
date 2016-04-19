@@ -21,6 +21,7 @@
         vm.comments = "";
         vm.review = {};
         vm.edit = false;
+        vm.status = 0; // 0 = normal, 1 = invalid grocery store, 2 = searching for grocery store
 
         // Event Handlers
         vm.rate1star = rate1star;
@@ -50,13 +51,11 @@
                             if (vm.review != null) {
                                 vm.comments = vm.review.text;
                                 vm.fruit = vm.review.fruit;
-                                GroceryService
-                                    .findGroceryStoreById(vm.review.groceryId)
-                                    .then(
-                                        function (groceryStore) {
-                                            vm.grocery = groceryStore;
-                                        }
-                                    );
+                                vm.grocery = {
+                                    "_id": vm.review.groceryId,
+                                    "name": vm.review.groceryName,
+                                    "address": vm.review.groceryAddress
+                                };
                                 if (vm.review.rating === 1) {
                                     rate1star();
                                 }
@@ -77,12 +76,18 @@
                     );
             }
             else {
+                vm.status = 2;
                 vm.fruit = $routeParams.fruit;
                 GroceryService
                     .findGroceryStoreById($routeParams.groceryId)
                     .then(
                         function (groceryStore) {
-                            vm.grocery = groceryStore;
+                            if (groceryStore) {
+                                vm.status = 0;
+                                vm.grocery = groceryStore;
+                            } else {
+                                vm.status = 1;
+                            }
                         }
                     );
             }
