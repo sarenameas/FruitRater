@@ -9,7 +9,7 @@ module.exports = function(mongoose) {
             "admin": {type: Boolean, default: false},
             "picture": String,
             "usersFollowing": [String],
-            "groceryStoresFollowing": [String],
+            "groceryStoresFollowing": [mongoose.Schema.Types.Mixed],
             "location": String
         },
         {   collection: "users"

@@ -1,12 +1,12 @@
 <div ng-include src="'views/profile/header/profile-header.view.html'"></div>
 
-<div ng-controller="GroceryStoresFollowingController as vm">
+<div ng-controller="GroceryStoresFollowingController as model">
 
-    <nav class="right-align" ng-show="vm.allGroceryStoresFollowing.length > 0">
+    <nav class="right-align" ng-show="model.allGroceryStoresFollowing.length > 0">
         Page:&nbsp;
-        <span ng-repeat="groceryStore in vm.groceryStoresPages">
-            <a ng-class="{'disabled': vm.$location.url() === '/profile/grocerystoresfollowing/{{$index+1}}'}"
-               ng-click="vm.getGroceryStoresForPage($index+1)">
+        <span ng-repeat="groceryStore in model.groceryStoresPages">
+            <a ng-class="{'disabled': model.$location.url() === '/profile/grocerystoresfollowing/{{$index+1}}'}"
+               ng-click="model.getGroceryStoresForPage($index+1)">
                 {{$index+1}}&nbsp;
             </a>
         </span>
@@ -15,7 +15,7 @@
 
 
     <div class="col-sm-8">
-        <div ng-repeat="groceryStore in vm.groceryStoresFollowing track by $index" class="vh-10">
+        <div ng-repeat="groceryStore in model.groceryStoresFollowing track by $index" class="vh-10">
 
             <span class="col-sm-6">
                 <a ng-href="#/grocery/{{groceryStore._id}}">
@@ -24,7 +24,7 @@
                 </a>
             </span>
             <span class="col-sm-6">
-                <button ng-click="vm.unfollow(groceryStore._id)" class="btn btn-default">Unfollow</button>
+                <button ng-click="model.unfollow(groceryStore._id, $index)" class="btn btn-default">Unfollow</button>
             </span>
 
         </div>

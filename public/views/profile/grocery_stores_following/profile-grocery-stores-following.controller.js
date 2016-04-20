@@ -35,27 +35,10 @@
         function updateGroceryStoresPages() {
             var i;
 
-            vm.allGroceryStoresFollowing = [];
-
-            for (i = 0; i < vm.currentUser.groceryStoresFollowing.length; i++) {
-                GroceryService
-                    .findGroceryStoreById(vm.currentUser.groceryStoresFollowing[i])
-                    .then(
-                        function (groceryStore) {
-                            vm.allGroceryStoresFollowing.push( groceryStore );
-
-                            // FIXME: Need to get a all grocery stores from service fully for a user to render properly.
-                            // TODO: Also sort grocery stores
-                            // TODO: Split grocery stores in array into pages for less yelp searches
-                            vm.groceryStoresPages = PagesService.splitItemsIntoPages(vm.allGroceryStoresFollowing,5);
-                            vm.getGroceryStoresForPage($routeParams.page);
-
-                        }
-                    );
-            }
-
-
-
+            vm.allGroceryStoresFollowing = vm.currentUser.groceryStoresFollowing;
+            vm.allGroceryStoresFollowing.sort(compareGroceryNamesAscending);
+            vm.groceryStoresPages = PagesService.splitItemsIntoPages(vm.allGroceryStoresFollowing,5);
+            vm.getGroceryStoresForPage($routeParams.page);
         }
 
         /* Gets the grocery stores for the given integer page number. */
@@ -64,9 +47,8 @@
             $location.path("/profile/grocerystoresfollowing/"+ page.toString());
         }
 
-        function unfollow(groceryId) {
-            var index = vm.currentUser.groceryStoresFollowing.indexOf(groceryId);
-            vm.currentUser.groceryStoresFollowing.splice(index, 1);
+        function unfollow(groceryId, $index) {
+            vm.currentUser.groceryStoresFollowing.splice($index, 1);
             delete vm.currentUser.password;
             UserService
                 .updateUser(vm.currentUser._id, vm.currentUser)
@@ -76,6 +58,17 @@
                     }
                 );
 
+        }
+
+        function compareGroceryNamesAscending(a, b) {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                return -1;
+            }
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1;
+            }
+            // a must be equal to b
+            return 0;
         }
 
 

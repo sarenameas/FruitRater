@@ -54,6 +54,8 @@
             })
             .when("/profile/grocerystoresfollowing/:page", {
                 templateUrl: "views/profile/grocery_stores_following/profile-grocery-stores-following.view.html",
+                controller: "GroceryStoresFollowingController",
+                controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }

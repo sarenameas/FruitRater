@@ -86,7 +86,7 @@
                 vm.unfollowVisible = false;
                 vm.followVisible = false;
             }
-            else if (vm.currentUser.groceryStoresFollowing.indexOf(vm.grocery._id) > -1) {
+            else if (followingIndex(vm.grocery._id) > -1) {
                 vm.unfollowVisible = true;
                 vm.followVisible = false;
             }
@@ -143,8 +143,8 @@
 
         function follow(groceryId) {
             if (vm.currentUser != null) {
-                if (vm.currentUser.groceryStoresFollowing.indexOf(groceryId) === -1) {
-                    vm.currentUser.groceryStoresFollowing.push(groceryId);
+                if (followingIndex(groceryId) === -1) {
+                    vm.currentUser.groceryStoresFollowing.push(vm.grocery);
                     var userUpdates = {
                         "groceryStoresFollowing": vm.currentUser.groceryStoresFollowing
                     };
@@ -164,7 +164,7 @@
 
         function unfollow(groceryId) {
             if (vm.currentUser != null) {
-                var index = vm.currentUser.groceryStoresFollowing.indexOf(groceryId);
+                var index = followingIndex(groceryId);
                 if (index > -1) {
                     vm.currentUser.groceryStoresFollowing.splice(index, 1);
                     UserService
@@ -180,5 +180,18 @@
             }
 
         }
+
+        // Returns the index of the grocery store by the given id if the use is following
+        // Returns -1 of the user is not following this grocery store.
+        function followingIndex(groceryId) {
+            var i;
+            for (i = 0; i < vm.currentUser.groceryStoresFollowing.length; i++) {
+                if(vm.currentUser.groceryStoresFollowing[i]._id === groceryId) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
     }
 })();
