@@ -14,6 +14,7 @@
             register: register,
             logout: logout,
             findUserById: findUserById,
+            findUsersByIds: findUsersByIds,
             findUsersByUsername: findUsersByUsername,
             findAllUsers : findAllUsers,
             createUser : createUser,
@@ -47,6 +48,10 @@
 
         function findUserById(userId) {
             return $http.get("/api/user/" + userId);
+        }
+        
+        function findUsersByIds(userIds) {
+            return $http.post("/api/user/userIds", userIds);
         }
 
         function findUsersByUsername(username) {

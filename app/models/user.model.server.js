@@ -38,7 +38,7 @@ module.exports = function(db, mongoose) {
     function findUsersByIds(userIds) {
         return UserModel.find(
             {
-                username: { $in: userIds }
+                _id: { $in: userIds }
             }
         )
     }

@@ -34,6 +34,7 @@ module.exports = function(app, UserModel) {
     app.get("/api/user", auth, findUsers);
     app.delete("/api/user/:userId", auth, deleteUser);
     app.put("/api/user/:userId", auth, updateUser);
+    app.post("/api/user/userIds", auth, findUsersByIds);
 
     app.post("/api/upload", uploadImage);
 
@@ -228,6 +229,21 @@ module.exports = function(app, UserModel) {
             .then(
                 function (status) {
                     res.status(200).json(status);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+
+    function findUsersByIds(req, res) {
+        var userIds = req.body;
+        UserModel
+            .findUsersByIds(userIds)
+            .then(
+                function (users) {
+                    res.json(users);
                 },
                 function (err) {
                     res.status(400).send(err);
