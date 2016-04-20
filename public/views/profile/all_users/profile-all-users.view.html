@@ -44,7 +44,7 @@
         <form>
             <tr ng-repeat="user in model.users">
                 <td>
-                    {{user.username}}
+                    <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
                 </td>
                 <td>
                     <!-- no password data -->
