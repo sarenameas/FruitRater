@@ -22,7 +22,6 @@
 
         init();
 
-        // TODO: Perhaps create directives for each type of page ... this is repeated code...
         function init() {
             vm.currentUser = UserService.getCurrentUser();
 

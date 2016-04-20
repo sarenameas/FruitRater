@@ -10,7 +10,6 @@
         // Get the currentUser items to fill in
         vm.currentUser = UserService.getCurrentUser();
         // There is no password error initially
-        // TODO: This logic probably shouldn't be here???
         vm.passwordError = false;
 
         vm.profileUpdated = false;
