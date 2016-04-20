@@ -129,8 +129,14 @@
                 }
                 break;
             case 7:
-                groceryStores = GroceryService.findGroceryStoresByNameAndLocation(vm.grocery, vm.location);
-                getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                GroceryService
+                    .findGroceryStoresByNameAndLocation(vm.grocery, vm.location)
+                    .then(
+                        function (results) {
+                            groceryStores = results;
+                            getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                        }
+                    );
                 break;
             default:
                 // Just display no results found.
@@ -151,12 +157,12 @@
                     .then(
                         function (response) {
                             var reviews = response.data;
-                            for (j = 0; i < reviews.length; j++) {
+                            for (j = 0; j < reviews.length; j++) {
                                 if (reviews[j].fruit === vm.fruit) {
                                     var result = {
                                         _id: reviews[j].groceryId,
-                                        name: groceryStores[i].name,
-                                        address: groceryStores[i].address,
+                                        name: reviews[j].groceryName,
+                                        address: reviews[j].groceryAddress,
                                         fruit: reviews[j].fruit
                                     }
                                     vm.results.push(result);
