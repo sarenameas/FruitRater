@@ -22,7 +22,6 @@
 
         init();
 
-        // TODO: Perhaps create directives for each type of page ... this is repeated code...
         function init() {
             vm.currentUser = UserService.getCurrentUser();
 
@@ -43,7 +42,7 @@
                     .then(
                         function (response) {
                             if (response.data) {
-                                // TODO: Need use promoise to get users then render the page.
+
                                 vm.allUsersFollowing.push(response.data);
                                 vm.userPages = PagesService.splitItemsIntoPages(vm.allUsersFollowing,5);
                                 vm.getUsersForPage($routeParams.page);
@@ -76,7 +75,6 @@
 
         // Searches the system for the given username.
         function search(username) {
-            // TODO: The userresults page should search the username in the title!
             $location.url('/profile/usersresults/' + username + '/1&');
         }
 

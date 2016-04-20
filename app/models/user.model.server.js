@@ -7,6 +7,7 @@ module.exports = function(db, mongoose) {
     var api = {
         findUserByCredentials : findUserByCredentials,
         findUserById: findUserById,
+        findUsersByIds: findUsersByIds,
         findUsersByUsername: findUsersByUsername,
         findUserByEmail: findUserByEmail,
         findAllUsers : findAllUsers,
@@ -32,6 +33,16 @@ module.exports = function(db, mongoose) {
     function findUserById(userId) {
         return UserModel.findById(userId);
     }
+
+    /* Returns all users matching the list of userIds */
+    function findUsersByIds(userIds) {
+        return UserModel.find(
+            {
+                username: { $in: userIds }
+            }
+        )
+    }
+
 
     /* Returns an array of users with the similar usernames */
     function findUsersByUsername(username) {

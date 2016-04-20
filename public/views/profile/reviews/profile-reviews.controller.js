@@ -36,7 +36,6 @@
         }
 
         function updateReviewPages() {
-            // TODO: Reviews should be grabbed in order by date written.
             ReviewService
                 .findAllReviewsForUser(vm.currentUser._id)
                 .then(
