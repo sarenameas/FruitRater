@@ -58,7 +58,9 @@
             }
 
             switch (parseInt(vm.searchComb, 2)) {
-            case 0:
+                case 0:
+                // TODO: Aggregate all reviews from the grocery stores
+                // then display the top ones by fruit.
                 var location = default_location;
                 if (vm.currentUser && vm.currentUser.location) {
                     location = vm.currentUser.location;
@@ -119,14 +121,28 @@
                     );
                 break;
             case 5:
-                groceryStores = GroceryService.findGroceryStoresByLocation(vm.location);
-                getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                GroceryService
+                    .findGroceryStoresByLocation(vm.location)
+                    .then(
+                        function (results) {
+                            groceryStores = results;
+                            getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                        }
+                    );
                 break;
             case 6:
-                if (vm.currentUser != null) {
-                    groceryStores = GroceryService.findGroceryStoresByLocation(vm.currentUser.location);
-                    getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                var location = default_location;
+                if (vm.currentUser && vm.currentUser.location) {
+                    location = vm.currentUser.location;
                 }
+                GroceryService
+                    .findGroceryStoresByNameAndLocation(vm.grocery, location)
+                    .then (
+                        function (results) {
+                            groceryStores = results;
+                            getReviewResultsFromGroceryStores(vm.fruit, groceryStores);
+                        }
+                    );
                 break;
             case 7:
                 GroceryService
