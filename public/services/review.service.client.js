@@ -48,15 +48,15 @@
         }
 
         function deleteFruitReviews(fruit, groceryId) {
-            return $http.delete("/api/review?groceryId=" + groceryId + "&fruit=" + fruit);
+            return $http.delete("/api/review/groceryId/" + groceryId + "/fruit/" + fruit);
         }
 
         function deleteGroceryStoreReviews(groceryId) {
-            return $http.delete("/api/review?groceryId=" + groceryId);
+            return $http.delete("/api/review/groceryId/" + groceryId);
         }
 
         function deleteUserReviews(userId) {
-            return $http.delete("/api/review?userId=" + userId);
+            return $http.delete("/api/review/userId/" + userId);
         }
 
         function findAllReviewsForGroceryStore(groceryId) {

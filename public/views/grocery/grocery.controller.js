@@ -126,7 +126,6 @@
         }
 
         function deleteGrocery() {
-            GroceryService.deleteGroceryStore(vm.grocery._id);
             ReviewService
                 .deleteGroceryStoreReviews(vm.grocery._id)
                 .then(

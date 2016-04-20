@@ -13,11 +13,19 @@
         Invalid fruit
     </div>
 
-    <div ng-show="model.reviews.length === 0 && model.status === 0">
+    <div ng-show="model.reviews.length === 0 && model.status !== 1">
         <h1>
             {{model.fruit.charAt(0).toUpperCase() + model.fruit.slice(1)}}
         </h1>
         <hr>
+
+        <p>
+            <a ng-href="#/grocery/{{model.grocery._id}}">
+                {{model.grocery.name.charAt(0).toUpperCase() + model.grocery.name.slice(1)}}&nbsp;
+                - {{model.grocery.address}}
+            </a>
+        </p>
+
 
         There are no reviews for this fruit yet! Get started by <a href="#/review/{{model.grocery._id}}/{{model.fruit}}">writing a review</a>.
     </div>

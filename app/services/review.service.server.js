@@ -8,9 +8,9 @@ module.exports = function(app, ReviewModel) {
     app.get("/api/review?groceryId=groceryId&fruit=fruit", findReviews);
     app.get("/api/review/:reviewId", findReviewById);
     app.delete("/api/review/:reviewId", deleteReview);
-    app.delete("/api/review?groceryId=groceryId&fruit=fruit", deleteReviews);
-    app.delete("/api/review?groceryId=groceryId", deleteReviews);
-    app.delete("/api/review?userId=userId", deleteReviews);
+    app.delete("/api/review/groceryId/:groceryId", deleteReviews);
+    app.delete("/api/review/groceryId/:groceryId/fruit/:fruit", deleteReviews);
+    app.delete("/api/review/userId/:userId", deleteReviews);
 
 
     function createReview(req, res) {
@@ -107,6 +107,8 @@ module.exports = function(app, ReviewModel) {
     }
 
     function deleteReview(req, res) {
+        console.log("Not supposed to be here...");
+        console.log(req.params);
         ReviewModel
             .deleteReview(req.params.reviewId)
             .then(
@@ -120,10 +122,10 @@ module.exports = function(app, ReviewModel) {
     }
 
     function deleteReviews(req, res) {
-
-        if (req.query.userId) {
+        console.log("HERE!");
+        if (req.params.userId) {
             ReviewModel
-                .deleteUserReviews(req.query.userId)
+                .deleteUserReviews(req.params.userId)
                 .then(
                     function (status) {
                         res.status(200).json(status);
@@ -133,9 +135,9 @@ module.exports = function(app, ReviewModel) {
                     }
                 );
         }
-        else if (req.query.groceryId && req.query.fruit) {
+        else if (req.params.groceryId && req.params.fruit) {
             ReviewModel
-                .deleteFruitReviews(req.query.fruit, req.query.groceryId)
+                .deleteFruitReviews(req.params.fruit, req.params.groceryId)
                 .then(
                     function (status) {
                         res.status(200).json(status);
@@ -145,9 +147,9 @@ module.exports = function(app, ReviewModel) {
                     }
                 );
         }
-        else if (req.query.groceryId) {
+        else if (req.params.groceryId) {
             ReviewModel
-                .deleteGroceryStoreReviews(req.query.groceryId)
+                .deleteGroceryStoreReviews(req.params.groceryId)
                 .then(
                     function (status) {
                         res.status(200).json(status);
