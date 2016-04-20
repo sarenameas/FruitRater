@@ -48,6 +48,8 @@
             })
             .when("/profile/usersfollowing/:page", {
                 templateUrl: "views/profile/users_following/profile-users-following.view.html",
+                controller: "UsersFollowingController",
+                controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }
@@ -68,6 +70,8 @@
             })
             .when("/profile/usersresults/:username/:page&", {
                 templateUrl: "views/profile/users_results/profile-users-results.view.html",
+                controller: "UserResultsController",
+                controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }
@@ -132,6 +136,8 @@
             })
             .when("/results/fruit=:fruit/grocery=:grocery/location=:location", {
                 templateUrl: "views/results/results.view.html",
+                controller: "ResultsController",
+                controllerAs: "model",
                 resolve: {
                     getLoggedIn: getLoggedIn
                 }

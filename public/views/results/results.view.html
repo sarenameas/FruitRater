@@ -1,16 +1,16 @@
 <h1>Results</h1>
 <hr>
 
-<div ng-controller="ResultsController as vm">
+<div ng-controller="ResultsController as model">
 
-    <div ng-show="vm.results.length === 0">
-        <h3>{{vm.noResultText}}</h3>
+    <div ng-show="model.results.length === 0">
+        <h3>{{model.noResultText}}</h3>
     </div>
-    <div ng-repeat="result in vm.results" class="vh-10">
+    <div ng-repeat="result in model.results" class="vh-10">
         <a href="#/grocery/{{result._id}}/{{result.fruit}}">
             {{result.name.charAt(0).toUpperCase() + result.name.slice(1)}}&nbsp;
             - {{result.address}}&nbsp;
-            <span ng-show="vm.fruit !== 'empty'">
+            <span ng-show="model.fruit !== 'empty'">
             - {{result.fruit.charAt(0).toUpperCase() + result.fruit.slice(1)}}
             </span>
         </a>

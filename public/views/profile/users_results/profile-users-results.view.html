@@ -2,18 +2,18 @@
 
 <h3>Users Search Results</h3>
 
-<div ng-controller="UserResultsController as vm">
+<div ng-controller="UserResultsController as model">
 
-    <div ng-show="vm.allUsersFound.length === 0">
-        Unable to find matches for <span>{{vm.username}}</span>...
+    <div ng-show="model.allUsersFound.length === 0">
+        Unable to find matches for <span>{{model.username}}</span>...
     </div>
 
-    <nav class="right-align" ng-show="vm.allUsersFound.length > 0">
+    <nav class="right-align" ng-show="model.allUsersFound.length > 0">
         Page:&nbsp;
-        <span ng-repeat="page in vm.usersFoundPages">
+        <span ng-repeat="page in model.usersFoundPages">
             <!-- TODO: Impose no spaces allowed in username..." -->
-            <a ng-class="{'disabled': vm.$location.url().includes('/{{$index+1}}&')}"
-               ng-click="vm.getUsersFoundForPage($index+1)">
+            <a ng-class="{'disabled': model.$location.url().includes('/{{$index+1}}&')}"
+               ng-click="model.getUsersFoundForPage($index+1)">
                 {{$index+1}}&nbsp;
             </a>
         </span>
@@ -21,13 +21,13 @@
     <br>
 
     <div class="col-sm-8">
-        <div ng-repeat="user in vm.usersFound track by $index" class="vh-10">
+        <div ng-repeat="user in model.usersFound track by $index" class="vh-10">
             <span class="col-sm-6">
                 <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
             </span>
-            <span ng-hide="user._id === vm.currentUser._id || vm.currentUser.usersFollowing.indexOf(user._id) > -1">
+            <span ng-hide="user._id === model.currentUser._id || model.currentUser.usersFollowing.indexOf(user._id) > -1">
                 <span class="col-sm-6">
-                    <button ng-click="vm.follow(user._id)" class="btn btn-default">Follow</button>
+                    <button ng-click="model.follow(user._id)" class="btn btn-default">Follow</button>
                 </span>
             </span>
         </div>
