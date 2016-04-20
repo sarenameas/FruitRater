@@ -64,6 +64,8 @@
             })
             .when("/profile/allusers/:page", {
                 templateUrl: "views/profile/all_users/profile-all-users.view.html",
+                controller: "AllUsersController",
+                controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }

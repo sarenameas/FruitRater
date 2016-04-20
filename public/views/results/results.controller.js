@@ -21,7 +21,6 @@
         search();
 
         /* Searches with location and searchString if availible. */
-        // TODO: For undefined searchString and location get client location and return local results for avacados or local walmarts
         function search() {
             var groceryStores = [];
             

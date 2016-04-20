@@ -1,8 +1,70 @@
 <div ng-include src="'views/profile/header/profile-header.view.html'"></div>
 
-<div ng-controller="AllUsersController as vm">
+<div ng-controller="AllUsersController as model">
 
-    <!-- Table of users -->
-    <!-- Wait until we finish admin page in homeworks to do this.. -->
+    <table class="table table-striped">
+
+        <tr>
+            <th>
+                <span ng-click="model.sortByUsername()"
+                      ng-class="{'glyphicon':true, 'glyphicon-triangle-bottom':model.usernameArrowDown, 'glyphicon-triangle-top':(!model.usernameArrowDown)}">
+                </span>
+                Username
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Admin?
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        <form>
+            <tr>
+                <td><input ng-model="model.user.username" class="form-control" type="text"/></td>
+                <td><input ng-model="model.user.password" class="form-control" type="password"/></td>
+                <td><input ng-model="model.user.email" class="form-control" type="text"/></td>
+                <td><input ng-model="model.user.admin" class="form-control" type="text"/></td>
+                <td class="text-right">
+                    <button ng-click="model.addUser(model.user)" type="submit" class="btn btn-default" id="add">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button ng-click="model.updateUser(model.user)" type="submit" class="btn btn-default" id="ok">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </button>
+                </td>
+            </tr>
+        </form>
+        <form>
+            <tr ng-repeat="user in model.users">
+                <td>
+                    {{user.username}}
+                </td>
+                <td>
+                    <!-- no password data -->
+                </td>
+                <td>
+                    {{user.email}}
+                </td>
+                <td>
+                    {{user.admin}}
+                </td>
+                <td class="text-right">
+                    <button ng-click="model.deleteUser(user, $index)" type="submit" class="btn btn-default" id="delete">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <button ng-click="model.selectUser(user)" type="submit" class="btn btn-default" id="edit">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </button>
+                </td>
+            </tr>
+        </form>
+    </table>
 
 </div>

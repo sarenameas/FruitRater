@@ -21,8 +21,6 @@
         vm.register = register;
 
         function register() {
-
-            // TODO: This logic probably shouldnt be in the controller???
             var registerOk = true;
 
             if (vm.username == null || vm.username === "") {
