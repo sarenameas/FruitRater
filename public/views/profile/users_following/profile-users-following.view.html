@@ -1,41 +1,37 @@
-<div class="container">
-    <div ng-include src="'views/profile/header/profile-header.view.html'"></div>
+<div ng-include src="'views/profile/header/profile-header.view.html'"></div>
 
-    <div ng-controller="UsersFollowingController as vm">
+<div ng-controller="UsersFollowingController as vm">
 
-        <nav class="right-align" ng-show="vm.allUsersFollowing.length > 0">
-            Page:&nbsp;
-            <span ng-repeat="user in vm.userPages">
-                <a ng-class="{'disabled': vm.$location.url() === '/profile/usersfollowing/{{$index+1}}'}"
-                   ng-click="vm.getUsersForPage($index+1)">
-                    {{$index+1}}&nbsp;
-                </a>
-            </span>
-        </nav>
-        <br>
+    <nav class="right-align" ng-show="vm.allUsersFollowing.length > 0">
+        Page:&nbsp;
+        <span ng-repeat="user in vm.userPages">
+            <a ng-class="{'disabled': vm.$location.url() === '/profile/usersfollowing/{{$index+1}}'}"
+               ng-click="vm.getUsersForPage($index+1)">
+                {{$index+1}}&nbsp;
+            </a>
+        </span>
+    </nav>
+    <br>
 
-        <form class="form-inline right-align">
-            <div class="form-group">
-                <input ng-model="username" type="text" class="form-control" placeholder="Username">
-            </div>
-            <button type="submit" class="btn btn-default" ng-click="vm.search(username)">Search Users</button>
-        </form>
-
-
-        <div class="col-sm-8">
-            <div ng-repeat="user in vm.usersFollowing track by $index" class="vh-10">
-
-                <span class="col-sm-6">
-                    <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
-                </span>
-                <span class="col-sm-6">
-                    <button ng-click="vm.unfollow(user._id)" class="btn btn-default">Unfollow</button>
-                </span>
-
-            </div>
+    <form class="form-inline right-align">
+        <div class="form-group">
+            <input ng-model="username" type="text" class="form-control" placeholder="Username">
         </div>
+        <button type="submit" class="btn btn-default" ng-click="vm.search(username)">Search Users</button>
+    </form>
 
+
+    <div class="col-sm-8">
+        <div ng-repeat="user in vm.usersFollowing track by $index" class="vh-10">
+
+            <span class="col-sm-6">
+                <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
+            </span>
+            <span class="col-sm-6">
+                <button ng-click="vm.unfollow(user._id)" class="btn btn-default">Unfollow</button>
+            </span>
+
+        </div>
     </div>
-
 
 </div>

@@ -1,37 +1,33 @@
-<div class="container">
-    <div ng-include src="'views/profile/header/profile-header.view.html'"></div>
+<div ng-include src="'views/profile/header/profile-header.view.html'"></div>
 
-    <div ng-controller="GroceryStoresFollowingController as vm">
+<div ng-controller="GroceryStoresFollowingController as vm">
 
-        <nav class="right-align" ng-show="vm.allGroceryStoresFollowing.length > 0">
-            Page:&nbsp;
-            <span ng-repeat="groceryStore in vm.groceryStoresPages">
-                <a ng-class="{'disabled': vm.$location.url() === '/profile/grocerystoresfollowing/{{$index+1}}'}"
-                   ng-click="vm.getGroceryStoresForPage($index+1)">
-                    {{$index+1}}&nbsp;
+    <nav class="right-align" ng-show="vm.allGroceryStoresFollowing.length > 0">
+        Page:&nbsp;
+        <span ng-repeat="groceryStore in vm.groceryStoresPages">
+            <a ng-class="{'disabled': vm.$location.url() === '/profile/grocerystoresfollowing/{{$index+1}}'}"
+               ng-click="vm.getGroceryStoresForPage($index+1)">
+                {{$index+1}}&nbsp;
+            </a>
+        </span>
+    </nav>
+    <br>
+
+
+    <div class="col-sm-8">
+        <div ng-repeat="groceryStore in vm.groceryStoresFollowing track by $index" class="vh-10">
+
+            <span class="col-sm-6">
+                <a ng-href="#/grocery/{{groceryStore._id}}">
+                    {{groceryStore.name.charAt(0).toUpperCase() + groceryStore.name.slice(1)}} -
+                    {{groceryStore.address.charAt(0).toUpperCase() + groceryStore.address.slice(1)}}
                 </a>
             </span>
-        </nav>
-        <br>
+            <span class="col-sm-6">
+                <button ng-click="vm.unfollow(groceryStore._id)" class="btn btn-default">Unfollow</button>
+            </span>
 
-
-        <div class="col-sm-8">
-            <div ng-repeat="groceryStore in vm.groceryStoresFollowing track by $index" class="vh-10">
-
-                <span class="col-sm-6">
-                    <a ng-href="#/grocery/{{groceryStore._id}}">
-                        {{groceryStore.name.charAt(0).toUpperCase() + groceryStore.name.slice(1)}} -
-                        {{groceryStore.address.charAt(0).toUpperCase() + groceryStore.address.slice(1)}}
-                    </a>
-                </span>
-                <span class="col-sm-6">
-                    <button ng-click="vm.unfollow(groceryStore._id)" class="btn btn-default">Unfollow</button>
-                </span>
-
-            </div>
         </div>
-
     </div>
-
 
 </div>

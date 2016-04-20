@@ -1,29 +1,25 @@
-<div class="container">
+<div ng-controller="UserProfileController as model">
+    <h1>
+        {{model.user.username}}'s Profile
+    </h1>
+    <hr>
 
-    <div ng-controller="UserProfileController as model">
-        <h1>
-            {{model.user.username}}'s Profile
-        </h1>
-        <hr>
+    <div class="col-sm-4 text-center">
+        <img id="img-profile" ng-src="{{model.user.picture}}" /><br>
+    </div>
+    <div class="col-sm-4 text-left">
+        <p>Joined: {{model.user.joinedDate | date : format : shortDate}}</p>
+        <p>No. Reviews: {{model.numReviews}}</p>
+        <p><a ng-href="#/user/{{model.user._id}}/reviews/1">{{model.user.username}}'s Reviews</a></p>
+    </div>
 
-        <div class="col-sm-4 text-center">
-            <img id="img-profile" ng-src="{{model.user.picture}}" /><br>
+    <div class="col-sm-4 text-right">
+        <div ng-show="model.followVisible">
+            <button ng-click="model.follow(model.user._id)" class="btn btn-default">Follow</button>
         </div>
-        <div class="col-sm-4 text-left">
-            <p>Joined: {{model.user.joinedDate | date : format : shortDate}}</p>
-            <p>No. Reviews: {{model.numReviews}}</p>
-            <p><a ng-href="#/user/{{model.user._id}}/reviews/1">{{model.user.username}}'s Reviews</a></p>
+        <div ng-show="model.unfollowVisible">
+            <button ng-click="model.unfollow(model.user._id)" class="btn btn-default">Unfollow</button>
         </div>
-
-        <div class="col-sm-4 text-right">
-            <div ng-show="model.followVisible">
-               <button ng-click="model.follow(model.user._id)" class="btn btn-default">Follow</button>
-            </div>
-            <div ng-show="model.unfollowVisible">
-                <button ng-click="model.unfollow(model.user._id)" class="btn btn-default">Unfollow</button>
-            </div>
-        </div>
-
     </div>
 
 </div>

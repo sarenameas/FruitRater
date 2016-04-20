@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div>
             <!-- Profile picture on the left -->
-            <div class="col-xs-2 text-center">
+            <div class="col-xs-3 text-center" style="overflow: hidden">
                 <a ng-href="#/user/{{user._id}}">{{user.username}}</a>
                 <br style="margin: 10px">
                 <a ng-href="#/user/{{user._id}}">
@@ -14,7 +14,7 @@
                 </a>
             </div>
             <!-- Review paragraph -->
-            <div class="col-xs-10">
+            <div class="col-xs-9">
                 <!-- Stars floating -->
                 <div class="text-right">
                     {{review.date | date : format : shortDate}}
@@ -36,7 +36,7 @@
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
                 </span>
-                <span ng-show="user._id === currentUser._id || currrentUser.admin">
+                <span ng-show="user._id === currentUser._id || currentUser.admin">
                     <a ng-click="deleteReview(review._id)">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>

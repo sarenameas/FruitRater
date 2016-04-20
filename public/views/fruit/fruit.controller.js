@@ -58,7 +58,6 @@
         }
 
         function updateReviewPages() {
-            // TODO: Reviews should be grabbed in order by date written.
             ReviewService
                 .findAllReviewsForFruitAndGroceryStore(vm.fruit, vm.grocery._id)
                 .then(
