@@ -282,7 +282,7 @@ module.exports = function(app, UserModel) {
                     console.log(picFile);
 
                     // We must check for a valid upload, else delete from our system!
-                    if (!mimetype.includes("image") || size > 100000) {
+                    if (size > 100000) {
                         fs.unlink(path, function (err) {
                             if (err) {
                                 res.status(400).send(err);
@@ -318,6 +318,7 @@ module.exports = function(app, UserModel) {
                                             if (err) {
                                                 console.log(err);
                                             }
+                                            console.log(destination);
                                             console.log("Properly deleted old file");
                                             return UserModel.updateUser(userId, userUpdates);
                                         });
