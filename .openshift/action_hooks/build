@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#First of all I check if the dir exists. If not I create it
+if [ ! -d $OPENSHIFT_DATA_DIR'user_images' ]
+then
+    echo "Create "$OPENSHIFT_DATA_DIR'user_images'
+    mkdir -p $OPENSHIFT_DATA_DIR'user_images'
+fi
+
+#Create symlink
+echo "Create link: "$OPENSHIFT_REPO_DIR'images -> '$OPENSHIFT_DATA_DIR'images'
+ln -sf $OPENSHIFT_DATA_DIR'user_images' $OPENSHIFT_REPO_DIR'public/user_images'
