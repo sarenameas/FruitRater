@@ -5,6 +5,9 @@ var multer = require("multer");
 var fs = require("fs");
 
 module.exports = function(app, UserModel) {
+    if (process.env.OPENSHIFT_DATA_DIR) {
+        destination = process.env.OPENSHIFT_DATA_DIR + "user_images";
+    }
     var destination = __dirname+'/../../public/user_images';
 
     var uploadMulter = multer({
