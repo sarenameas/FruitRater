@@ -31,12 +31,12 @@
         <!-- Edit and delete glyphs -->
         <div>
             <div class="col-xs-12 text-right">
-                <span ng-show="user._id === currentUser._id">
+                <span ng-if="currentUser && user._id === currentUser._id">
                     <a ng-click="editReview(review._id)">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
                 </span>
-                <span ng-show="user._id === currentUser._id || currentUser.admin">
+                <span ng-if="currentUser && (user._id === currentUser._id || currentUser.admin)">
                     <a ng-click="deleteReview(review._id)">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>

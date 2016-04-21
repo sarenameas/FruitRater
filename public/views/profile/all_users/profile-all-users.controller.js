@@ -64,7 +64,7 @@
                 user.username != "" &&
                 user.username != null)
             {
-                if (user.password == null && user.password == "") {
+                if (user.password == null || user.password == "") {
                     delete user.password;
                 }
                 UserService
