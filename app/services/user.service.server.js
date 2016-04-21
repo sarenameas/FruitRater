@@ -292,6 +292,7 @@ module.exports = function(app, UserModel) {
                         });
                     } else {
                         var userUpdates = {};
+                        console.log("process.env.OPENSHIFT_DATA_DIRS");
                         console.log(process.env.OPENSHIFT_DATA_DIRS);
                         if (process.env.OPENSHIFT_DATA_DIRS) {
                             userUpdates = {
@@ -302,8 +303,12 @@ module.exports = function(app, UserModel) {
                                 "picture": "/pictures/" + filename
                             };
                         }
-
+                        console.log("destination");
+                        console.log(destination);
+                        console.log("userUpdates");
                         console.log(userUpdates);
+                        console.log("filename");
+                        console.log(filename);
 
                         // Delete old picture from the system and then update the user.
                         UserModel
