@@ -127,9 +127,7 @@ module.exports = function(app) {
         function callback(error, response, body) {
             if (error) {
                 console.error(error);
-            }
-
-            if (body !== "undefined") {
+            } else {
                 res.json(JSON.parse(body));
             }
         }
@@ -144,10 +142,7 @@ module.exports = function(app) {
         function callback(error, response, body) {
             if (error) {
                 console.error(error);
-            }
-
-            console.log(body);
-            if (body !== "undefined") {
+            } else  {
                 res.json(JSON.parse(body));
             }
         }

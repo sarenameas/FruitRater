@@ -36,7 +36,9 @@
             var i;
 
             vm.allGroceryStoresFollowing = vm.currentUser.groceryStoresFollowing;
-            vm.allGroceryStoresFollowing.sort(compareGroceryNamesAscending);
+            if (vm.allGroceryStoresFollowing.length > 1) {
+                vm.allGroceryStoresFollowing.sort(compareGroceryNamesAscending);
+            }
             vm.groceryStoresPages = PagesService.splitItemsIntoPages(vm.allGroceryStoresFollowing,5);
             vm.getGroceryStoresForPage($routeParams.page);
         }

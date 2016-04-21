@@ -57,7 +57,6 @@
         }
 
         function follow(userId) {
-            // TODO: Cannot follow a user more than once... need to disable button (doesnt work in IE11)
             var index = vm.currentUser.usersFollowing.indexOf(userId);
             // If we are not currently following this user then add them to the list.
             if (index == -1) {
