@@ -7,7 +7,7 @@ var fs = require("fs");
 module.exports = function(app, UserModel) {
     var destination = __dirname+'/../../public/pictures';
     if (process.env.OPENSHIFT_DATA_DIR) {
-        destination = process.env.OPENSHIFT_DATA_DIR;
+        destination = process.env.OPENSHIFT_DATA_DIRS;
     }
 
     var uploadMulter = multer({
@@ -268,6 +268,8 @@ module.exports = function(app, UserModel) {
                 var picFile = req.file;
                 var userId = req.body.userId;
 
+                console.log("Uploaded file!");
+
                 // If a file was uploaded
                 if (picFile) {
                     var destination   = picFile.destination;
@@ -276,6 +278,8 @@ module.exports = function(app, UserModel) {
                     var size          = picFile.size;
                     var mimetype      = picFile.mimetype;
                     var filename      = picFile.filename;
+
+                    console.log(picFile);
 
                     // We must check for a valid upload, else delete from our system!
                     if (!mimetype.includes("image") || size > 100000) {
@@ -287,9 +291,20 @@ module.exports = function(app, UserModel) {
                             }
                         });
                     } else {
-                        var userUpdates = {
-                            "picture": "/pictures/" + filename
-                        };
+                        var userUpdates = {};
+                        console.log(process.env.OPENSHIFT_DATA_DIRS);
+                        if (process.env.OPENSHIFT_DATA_DIRS) {
+                            userUpdates = {
+                                "picture": process.env.OPENSHIFT_DATA_DIRS + "/" + filename
+                            }
+                        } else {
+                            userUpdates = {
+                                "picture": "/pictures/" + filename
+                            };
+                        }
+
+                        console.log(userUpdates);
+
                         // Delete old picture from the system and then update the user.
                         UserModel
                             .findUserById(userId)
@@ -303,8 +318,10 @@ module.exports = function(app, UserModel) {
                                             if (err) {
                                                 console.log(err);
                                             }
+                                            console.log("Properly deleted old file");
                                             return UserModel.updateUser(userId, userUpdates);
                                         });
+
                                     } else {
                                         return UserModel.updateUser(userId, userUpdates);
                                     }
