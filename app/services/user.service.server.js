@@ -308,7 +308,7 @@ module.exports = function(app, UserModel) {
                                 function (user) {
                                     if (user.picture) {
                                         // Get the user picture filename from the string
-                                        var oldfilename = user.picture.slice(10);
+                                        var oldfilename = user.picture.slice(13);
                                         fs.unlink(destination + "/" + oldfilename, function (err) {
                                             // An error just means the picture was not found.
                                             if (err) {
