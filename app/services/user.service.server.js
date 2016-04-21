@@ -7,7 +7,7 @@ var fs = require("fs");
 module.exports = function(app, UserModel) {
     var destination = __dirname+'/../../public/pictures';
     if (process.env.OPENSHIFT_DATA_DIR) {
-        destination = process.env.OPENSHIFT_DATA_DIRS;
+        destination = process.env.OPENSHIFT_DATA_DIR;
     }
 
     var uploadMulter = multer({
@@ -292,11 +292,11 @@ module.exports = function(app, UserModel) {
                         });
                     } else {
                         var userUpdates = {};
-                        console.log("process.env.OPENSHIFT_DATA_DIRS");
-                        console.log(process.env.OPENSHIFT_DATA_DIRS);
-                        if (process.env.OPENSHIFT_DATA_DIRS) {
+                        console.log("process.env.OPENSHIFT_DATA_DIR");
+                        console.log(process.env.OPENSHIFT_DATA_DIR);
+                        if (process.env.OPENSHIFT_DATA_DIR) {
                             userUpdates = {
-                                "picture": process.env.OPENSHIFT_DATA_DIRS + "/" + filename
+                                "picture": process.env.OPENSHIFT_DATA_DIR + "/" + filename
                             }
                         } else {
                             userUpdates = {
