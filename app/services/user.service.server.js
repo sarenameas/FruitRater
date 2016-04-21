@@ -7,7 +7,7 @@ var fs = require("fs");
 module.exports = function(app, UserModel) {
     var destination = __dirname+'/../../public/pictures';
     if (process.env.OPENSHIFT_DATA_DIR) {
-        destination = process.env.OPENSHIFT_DATA_DIR;
+        destination = process.env.OPENSHIFT_DATA_DIR + "pictures";
     }
 
     var uploadMulter = multer({
@@ -296,7 +296,7 @@ module.exports = function(app, UserModel) {
                         console.log(process.env.OPENSHIFT_DATA_DIR);
                         if (process.env.OPENSHIFT_DATA_DIR) {
                             userUpdates = {
-                                "picture": process.env.OPENSHIFT_DATA_DIR + filename
+                                "picture": process.env.OPENSHIFT_DATA_DIR + "pictures/" + filename
                             }
                         } else {
                             userUpdates = {
