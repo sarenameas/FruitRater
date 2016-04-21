@@ -44,6 +44,7 @@ app.use(passport.session());
 
 
 app.use(express.static(__dirname + '/public'));
+app.use(__dirname + '/public/user_images', express.static(process.env.OPENSHIFT_DATA_DIR+'user_images'));
 
 app.listen(port, ipaddress);
 
